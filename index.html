@@ -286,7 +286,7 @@
                 creatorCredit: `Website created by <a href="https://ostap.com/" target="_blank" class="text-blue-500 hover:underline">Ostap Lernatovych</a>`
             },
             uk: {
-                navTitle: "Україна в серці одна",
+                navTitle: "Україна в серці",
                 navHome: "Головна",
                 navEpisodes: "Епізоди",
                 navNews: "Новини",
@@ -309,7 +309,7 @@
                 host1_name: "Оксана Лернатович",
                 host1_resume: `<p>Народилася у Львові, Україна, 13 серпня 1966 року.</p><ul><li><b>1983:</b> Закінчила Львівську середню школу.</li><li><b>1988:</b> Закінчила факультет журналістики Львівського університету.</li><li><b>1988-1989:</b> Працювала кореспондентом волинської газети «Слово Правди».</li><li><b>1990-1995:</b> Повернулася до Львова і працювала кореспондентом газети «За вільну Україну», першої газети, виданої за часів нової незалежної України.</li><li><b>1992:</b> Прийнята до Спілки журналістів України.</li><li><b>1995:</b> Працювала редактором відродженої газети «Сільський господар».</li><li><b>1999-2004:</b> Керувала рекламним відділом на Львівському державному радіо, заснувавши такі проекти, як «Успішний бізнес» та «Тиждень у Львові».</li><li><b>2005-дотепер:</b> Продовжує роботу в українській діаспорі в США, бере участь в Українській радіопрограмі в Піттсбурзі, пише для газет та продюсує відеопрограми для Львівського телебачення. Вона є редактором, продюсером та ведучою програми «Україна у серці одна».</li><li><b>Заслужений журналіст України</b> - звання, присвоєне Президентом України у 2017 році за вагомий внесок у журналістику країни.</li></ul><p>Оксана одружена з Володимиром Лернатовичем, у них троє дітей: Аня, Остап та Нестор.</p>`,
                 host2_name: "Зіновій Левковський",
-                host2_resume: `<p>Народився 26 грудня 1953р.</p><ul><li>Закінчив музшколу-інтернат по класу фортепіано, потім Львівську консерваторію у 1980 р.</li><li><b>до 1986р:</b> Разом з Оксаною та Ігорем Білозірами продовжив становлення у Львівській філармонії в ансамблі "Ватра".</li><li>Далі працював у Рівненській філармонії в гурті "Жайвір", який пізніше перебрався до Москви і разом з відомою російською співачкою Іриною Понаровською успішно гастролював по СРСР до 1990р.</li><li><b>до 2000р:</b> Повернувся до Львова для студійної роботи з Ігорем Білозіром.</li><li>Пізніше працював старшим звукорежисером Львівського Радіо в Львівській держтелерадіокомпанії.</li><li><b>З 2010 року:</b> Продюсер і звукорежисер інтернет-радіопроєкту львівської журналістки Оксани Лернатович "Україна у серці одна", який реалізований в редакції українських програм Радіо Піттсбург, Пенсильванія, США.</li></ul><p>Для співпраці звертайтеся: lernatovych@gmail.com. Деякі програми можна почути на YouTube за назвою проєкту.</p>`,
+                host2_resume: `<p>Народився 26 грудня 1953р.</p><ul><li>Закінчив музшколу-інтернат по класу фортепіано, потім Львівську консерваторію у 1980 р.</li><li><b>до 1986р:</b> Разом з Оксаною та Ігорем Білозірами продовжив становлення у Львівській філармонії в ансамблі "Ватра".</li><li>Далі працював у Рівненській філармонії в гурті "Жайвір", який пізніше перебрався до Москви і разом з відомою російською співачкою Іриною Понаровською успішно гастролював по СРСР до 1990р.</li><li><b>до 2000р:</b> Повернувся до Львова для студійної роботи з Ігорем Білозіром.</li><li>Пізніше працював старшим звукорежисером Львівського Радіо в Львівській держтелерадіокомпанії.</li><li><b>З 2010 року:</b> Продюсер і звукорежисер інтернет-радіопроєкту львівської журналістки Оксани Лернатович "Україна у серці одна", який реалізований в редакції українських програм Радіо Піттсбург, Пенсильванія, США.</li></ul><p>Для співпраці звертайтеся: Lzm211253@gmail.com. Деякі програми можна почути на YouTube за назвою проєкту.</p>`,
                 host3_name: "Володимир Лернатович",
                 host3_resume: `<p>Постійний коментатор та співавтор програми.</p><ul><li>Народився 18 листопада 1962 року, м. Львів.</li><li>Кандидат політичних наук, доцент кафедри теорії і практики журналістики ЛНУ імені Івана Франка.</li><li>Перший дослідник "Правого радикалізму в Україні".</li><li>Автор близько 200 публікацій у періодичних виданнях та більше 50 у наукових журналах.</li><li>Політичний коментатор українського радіо міста Піттсбург (США), член НСЖУ, член редколегії журналу «Воля і Батьківщина».</li></ul>`,
                 supportTitle: "Підтримайте нашу програму",
@@ -461,18 +461,25 @@
 
         async function loadEpisodes() {
             const loader = document.getElementById('episodes-loader');
-            // The RSS feed URL is now proxied to avoid CORS issues.
-            // A proxy server is needed for this to work in a live environment.
-            // For development, a browser extension can be used to disable CORS.
-            const rssUrl = 'https://cors-anywhere.herokuapp.com/https://anchor.fm/s/2ea2228/podcast/rss';
+            const rssFeedUrl = 'https://anchor.fm/s/2ea2228/podcast/rss';
+            // Using a different public CORS proxy.
+            const proxyUrl = `https://cors.eu.org/${rssFeedUrl}`;
             
             try {
-                const response = await fetch(rssUrl);
-                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                const response = await fetch(proxyUrl);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
                 const xmlText = await response.text();
                 
                 const parser = new DOMParser();
                 const xmlDoc = parser.parseFromString(xmlText, "application/xml");
+                
+                const errorNode = xmlDoc.querySelector("parsererror");
+                if (errorNode) {
+                    console.error("Parser Error:", errorNode.textContent);
+                    throw new Error("Error parsing XML feed.");
+                }
 
                 const items = xmlDoc.querySelectorAll("item");
                 const parsedEpisodes = Array.from(items).map(item => {
@@ -497,7 +504,7 @@
 
             } catch (error) {
                 console.error("Error fetching or parsing RSS feed:", error);
-                if(loader) loader.innerHTML = `<p class="text-center col-span-full text-red-500">Sorry, we couldn't load the episodes right now. This might be due to network restrictions (CORS). Please try again later or contact support.</p>`;
+                if(loader) loader.innerHTML = `<p class="text-center col-span-full text-red-500">Sorry, we couldn't load the episodes right now. This is likely due to network (CORS) restrictions. Please try again later.</p>`;
             }
         }
        
