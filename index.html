@@ -67,6 +67,11 @@
         #rotating-hero-subtitle {
              min-height: 4rem; 
         }
+        .episode-thumbnail {
+            height: 200px;
+            width: 100%;
+            object-fit: cover;
+        }
     </style>
 </head>
 <body class="text-slate-800">
@@ -150,6 +155,8 @@
                     <p class="mt-2 text-slate-500" data-lang-key="episodesLoading">Loading latest episodes...</p>
                 </div>
             </div>
+            <!-- Episode pagination will be injected here -->
+            <div id="episodes-pagination" class="text-center mt-12"></div>
         </div>
     </section>
 
@@ -234,7 +241,7 @@
                 </div>
             </div>
             <div class="border-t border-slate-200 pt-6 text-slate-500">
-                <p data-lang-key="footerText">&copy; 2025 Ukrainian Radio Program 'Ukraine in the heart of everyone'.</p>
+                <p id="footer-text-container"></p>
                 <p class="text-sm mt-2" data-lang-key="creatorCredit">Website created by <a href="https://ostap.com/" target="_blank" class="text-blue-500 hover:underline">Ostap Lernatovych</a></p>
             </div>
         </div>
@@ -257,13 +264,15 @@
                 episodesTitle: "Latest Episodes",
                 episodesLoading: "Loading latest episodes...",
                 episodeDefaultDesc: "Listen to the latest program for news, culture, and stories from the Ukrainian community.",
+                episodesShowPrevious: "Previous",
+                episodesShowNext: "Next",
                 newsTitle: "Latest News",
                 newsLoading: "Loading latest news...",
                 newsShowOlder: "Show Older News",
                 aboutTitle: "About the Program & Hosts",
                 aboutDescription: "The \"Ukraine in the heart of everyone\" radio program is a vital link for the Ukrainian community in Pittsburgh and beyond. Our mission is to keep the spirit of Ukraine alive, to inform, and to unite our listeners through the power of radio and podcasting. Meet the team below.",
                 host1_name: "Oksana Lernatovych",
-                host1_resume: `<p>Born in Lviv, Ukraine on August 13, 1966.</p><ul><li><b>1983:</b> Graduated from Lviv High School.</li><li><b>1988:</b> Graduated from the Lviv University School of Journalism.</li><li><b>1988-1989:</b> Worked as a correspondent with the Volyn newspaper Slovo Pravdi.</li><li><b>1990-1995:</b> Returned to Lviv and worked as a correspondent with the newspaper Za Vilny Ukrainu, the first newspaper published during the newly independent Ukraine.</li><li><b>1992:</b> Accepted as a member of the Union of Ukrainian Journalists.</li><li><b>1995:</b> Worked as the editor of the resurrected newspaper Silskiy Hospodar.</li><li><b>1999-2004:</b> Managed the advertising department at Lviv State Radio, founding projects like "Successful Business" and "The Week in Lviv".</li><li><b>2005-Present:</b> Continues work in the Ukrainian Diaspora in the US, contributing to the Ukrainian Radio Program in Pittsburgh, writing for newspapers, and producing video programs for Lviv Television. She is the editor, producer, and on-air host of "Ukraine in the heart of everyone".</li></ul><p>Oksana is married to Volodymyr Lernatovych, and they have three children: Anya, Ostap, and Nestor.</p>`,
+                host1_resume: `<p>Born in Lviv, Ukraine on August 13, 1966.</p><ul><li><b>1983:</b> Graduated from Lviv High School.</li><li><b>1988:</b> Graduated from the Lviv University School of Journalism.</li><li><b>1988-1989:</b> Worked as a correspondent with the Volyn newspaper Slovo Pravdi.</li><li><b>1990-1995:</b> Returned to Lviv and worked as a correspondent with the newspaper Za Vilny Ukrainu, the first newspaper published during the newly independent Ukraine.</li><li><b>1992:</b> Accepted as a member of the Union of Ukrainian Journalists.</li><li><b>1995:</b> Worked as the editor of the resurrected newspaper Silskiy Hospodar.</li><li><b>1999-2004:</b> Managed the advertising department at Lviv State Radio, founding projects like "Successful Business" and "The Week in Lviv".</li><li><b>2005-Present:</b> Continues work in the Ukrainian Diaspora in the US, contributing to the Ukrainian Radio Program in Pittsburgh, writing for newspapers, and producing video programs for Lviv Television. She is the editor, producer, and on-air host of "Ukraine in the heart of everyone".</li><li><b>Recipient of the Merited Journalist of Ukraine Award</b> - the title was awarded by the President of Ukraine in 2017 for “vital contribution” in the country’s journalism.</li></ul><p>Oksana is married to Volodymyr Lernatovych, and they have three children: Anya, Ostap, and Nestor.</p>`,
                 host2_name: "Zinoviy Levkovskiy",
                 host2_resume: `<p>Born on December 26, 1953.</p><ul><li>Graduated from a music boarding school (piano class), then the Lviv Conservatory in 1980.</li><li><b>Until 1986:</b> Continued his development at the Lviv Philharmonic with the ensemble "Vatra" alongside Oksana and Igor Bilozir.</li><li>Next, worked at the Rivne Philharmonic with the group "Zhayvir", which later moved to Moscow and successfully toured the USSR with the famous Russian singer Irina Ponarovskaya until 1990.</li><li><b>Until 2000:</b> Returned to Lviv for studio work with Igor Bilozir.</li><li>Later, worked as a Senior Sound Engineer at Lviv State Television and Radio Company (Lviv Radio).</li><li><b>From 2010:</b> Producer and sound engineer for Oksana Lernatovych's internet radio project "Ukraine in the heart of everyone," broadcasted by the Ukrainian programs editorial office of Radio Pittsburgh, Pennsylvania, USA.</li></ul><p>To collaborate, contact: Lzm211253@gmail.com. Some programs can also be found on YouTube under the project's name.</p>`,
                 host3_name: "Volodymyr Lernatovych",
@@ -273,7 +282,7 @@
                 supportDonate: "Donate via PayPal",
                 subscribePlatformsTitle: "Find Us On Social Media & Podcast Platforms",
                 contactTitle: "Contact Us",
-                footerText: "© 2024 Ukrainian Radio Program 'Ukraine in the heart of everyone'.",
+                footerCopyright: "Ukrainian Radio Program 'Ukraine in the heart of everyone'.",
                 creatorCredit: `Website created by <a href="https://ostap.com/" target="_blank" class="text-blue-500 hover:underline">Ostap Lernatovych</a>`
             },
             uk: {
@@ -290,15 +299,17 @@
                 episodesTitle: "Останні випуски",
                 episodesLoading: "Завантаження останніх випусків...",
                 episodeDefaultDesc: "Слухайте останню програму, щоб дізнатися новини, культурні події та історії української громади.",
+                episodesShowPrevious: "Попередні",
+                episodesShowNext: "Наступні",
                 newsTitle: "Останні новини",
                 newsLoading: "Завантаження останніх новин...",
                 newsShowOlder: "Показати старіші новини",
                 aboutTitle: "Про програму та ведучих",
                 aboutDescription: "Радіопрограма «Україна у серці одна» — це життєво важливий зв'язок для української громади в Піттсбурзі та за його межами. Наша місія — підтримувати дух України, інформувати та об'єднувати наших слухачів за допомогою радіо та подкастингу. Знайомтеся з командою нижче.",
                 host1_name: "Оксана Лернатович",
-                host1_resume: `<p>Народилася у Львові, Україна, 13 серпня 1966 року.</p><ul><li><b>1983:</b> Закінчила Львівську середню школу.</li><li><b>1988:</b> Закінчила факультет журналістики Львівського університету.</li><li><b>1988-1989:</b> Працювала кореспондентом волинської газети «Слово Правди».</li><li><b>1990-1995:</b> Повернулася до Львова і працювала кореспондентом газети «За вільну Україну», першої газети, виданої за часів нової незалежної України.</li><li><b>1992:</b> Прийнята до Спілки журналістів України.</li><li><b>1995:</b> Працювала редактором відродженої газети «Сільський господар».</li><li><b>1999-2004:</b> Керувала рекламним відділом на Львівському державному радіо, заснувавши такі проекти, як «Успішний бізнес» та «Тиждень у Львові».</li><li><b>2005-дотепер:</b> Продовжує роботу в українській діаспорі в США, бере участь в Українській радіопрограмі в Піттсбурзі, пише для газет та продюсує відеопрограми для Львівського телебачення. Вона є редактором, продюсером та ведучою програми «Україна у серці одна».</li></ul><p>Оксана одружена з Володимиром Лернатовичем, у них троє дітей: Аня, Остап та Нестор.</p>`,
+                host1_resume: `<p>Народилася у Львові, Україна, 13 серпня 1966 року.</p><ul><li><b>1983:</b> Закінчила Львівську середню школу.</li><li><b>1988:</b> Закінчила факультет журналістики Львівського університету.</li><li><b>1988-1989:</b> Працювала кореспондентом волинської газети «Слово Правди».</li><li><b>1990-1995:</b> Повернулася до Львова і працювала кореспондентом газети «За вільну Україну», першої газети, виданої за часів нової незалежної України.</li><li><b>1992:</b> Прийнята до Спілки журналістів України.</li><li><b>1995:</b> Працювала редактором відродженої газети «Сільський господар».</li><li><b>1999-2004:</b> Керувала рекламним відділом на Львівському державному радіо, заснувавши такі проекти, як «Успішний бізнес» та «Тиждень у Львові».</li><li><b>2005-дотепер:</b> Продовжує роботу в українській діаспорі в США, бере участь в Українській радіопрограмі в Піттсбурзі, пише для газет та продюсує відеопрограми для Львівського телебачення. Вона є редактором, продюсером та ведучою програми «Україна у серці одна».</li><li><b>Заслужений журналіст України</b> - звання, присвоєне Президентом України у 2017 році за вагомий внесок у журналістику країни.</li></ul><p>Оксана одружена з Володимиром Лернатовичем, у них троє дітей: Аня, Остап та Нестор.</p>`,
                 host2_name: "Зіновій Левковський",
-                host2_resume: `<p>Народився 26 грудня 1953р.</p><ul><li>Закінчив музшколу-інтернат по класу фортепіано, потім Львівську консерваторію у 1980 р.</li><li><b>до 1986р:</b> Разом з Оксаною та Ігорем Білозірами продовжив становлення у Львівській філармонії в ансамблі "Ватра".</li><li>Далі працював у Рівненській філармонії в гурті "Жайвір", який пізніше перебрався до Москви і разом з відомою російською співачкою Іриною Понаровською успішно гастролював по СРСР до 1990р.</li><li><b>до 2000р:</b> Повернувся до Львова для студійної роботи з Ігорем Білозіром.</li><li>Пізніше працював старшим звукорежисером Львівського Радіо в Львівській держтелерадіокомпанії.</li><li><b>З 2010 року:</b> Продюсер і звукорежисер інтернет-радіопроєкту львівської журналістки Оксани Лернатович "Україна у серці одна", який реалізований в редакції українських програм Радіо Піттсбург, Пенсильванія, США.</li></ul><p>Для співпраці звертайтеся: Lzm211253@gmail.com. Деякі програми можна почути на YouTube за назвою проєкту.</p>`,
+                host2_resume: `<p>Народився 26 грудня 1953р.</p><ul><li>Закінчив музшколу-інтернат по класу фортепіано, потім Львівську консерваторію у 1980 р.</li><li><b>до 1986р:</b> Разом з Оксаною та Ігорем Білозірами продовжив становлення у Львівській філармонії в ансамблі "Ватра".</li><li>Далі працював у Рівненській філармонії в гурті "Жайвір", який пізніше перебрався до Москви і разом з відомою російською співачкою Іриною Понаровською успішно гастролював по СРСР до 1990р.</li><li><b>до 2000р:</b> Повернувся до Львова для студійної роботи з Ігорем Білозіром.</li><li>Пізніше працював старшим звукорежисером Львівського Радіо в Львівській держтелерадіокомпанії.</li><li><b>З 2010 року:</b> Продюсер і звукорежисер інтернет-радіопроєкту львівської журналістки Оксани Лернатович "Україна у серці одна", який реалізований в редакції українських програм Радіо Піттсбург, Пенсильванія, США.</li></ul><p>Для співпраці звертайтеся: lernatovych@gmail.com. Деякі програми можна почути на YouTube за назвою проєкту.</p>`,
                 host3_name: "Володимир Лернатович",
                 host3_resume: `<p>Постійний коментатор та співавтор програми.</p><ul><li>Народився 18 листопада 1962 року, м. Львів.</li><li>Кандидат політичних наук, доцент кафедри теорії і практики журналістики ЛНУ імені Івана Франка.</li><li>Перший дослідник "Правого радикалізму в Україні".</li><li>Автор близько 200 публікацій у періодичних виданнях та більше 50 у наукових журналах.</li><li>Політичний коментатор українського радіо міста Піттсбург (США), член НСЖУ, член редколегії журналу «Воля і Батьківщина».</li></ul>`,
                 supportTitle: "Підтримайте нашу програму",
@@ -306,7 +317,7 @@
                 supportDonate: "Пожертвувати через PayPal",
                 subscribePlatformsTitle: "Знайдіть нас у соцмережах та на подкаст-платформах",
                 contactTitle: "Контакти",
-                footerText: "© 2024 Українська радіо програма 'Україна у серці одна'.",
+                footerCopyright: "Українська радіо програма 'Україна у серці одна'.",
                 creatorCredit: `Веб-сайт створено <a href="https://ostap.com/" target="_blank" class="text-blue-500 hover:underline">Остапом Лернатовичем</a>`
             }
         };
@@ -320,10 +331,26 @@
                 }
             });
             document.documentElement.lang = lang;
-            // After translating, we might need to update the "Show Older News" button text if it exists
-             const loadMoreBtn = document.querySelector('#news-pagination button');
-             if (loadMoreBtn) {
-                 loadMoreBtn.textContent = translations[lang].newsShowOlder;
+            
+            // Dynamically set footer text
+            const year = new Date().getFullYear();
+            const footerEl = document.getElementById('footer-text-container');
+            if (footerEl) {
+                footerEl.innerHTML = `&copy; ${year} ${translations[lang].footerCopyright}`;
+            }
+
+            // After translating, update pagination button text if they exist
+             const loadMoreNewsBtn = document.querySelector('#news-pagination button');
+             if (loadMoreNewsBtn) {
+                 loadMoreNewsBtn.textContent = translations[lang].newsShowOlder;
+             }
+             const prevEpisodesBtn = document.querySelector('#episodes-pagination .prev-button');
+              if (prevEpisodesBtn) {
+                 prevEpisodesBtn.textContent = translations[lang].episodesShowPrevious;
+             }
+             const nextEpisodesBtn = document.querySelector('#episodes-pagination .next-button');
+             if (nextEpisodesBtn) {
+                 nextEpisodesBtn.textContent = translations[lang].episodesShowNext;
              }
         }
 
@@ -349,49 +376,128 @@
             mobileMenu.classList.toggle('hidden');
         });
 
-        // --- Dynamic Episode Loading ---
-        async function loadEpisodes() {
+        // --- Dynamic Episode Loading with Pagination ---
+        let allEpisodes = [];
+        let currentEpisodePage = 0;
+        const EPISODES_PER_PAGE = 6;
+
+        function displayVisibleEpisodes() {
             const episodeList = document.getElementById('episode-list');
+            const paginationContainer = document.getElementById('episodes-pagination');
             const loader = document.getElementById('episodes-loader');
-            const rssUrl = 'https://anchor.fm/s/2ea2228/podcast/rss';
-            const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}`;
+            const currentLang = document.documentElement.lang || 'en';
 
-            function getCleanDescription(htmlString) {
-                const tempDiv = document.createElement('div');
-                tempDiv.innerHTML = htmlString;
-                const firstParagraph = Array.from(tempDiv.querySelectorAll('p')).find(p => p.textContent.trim().length > 10);
-                let text = (firstParagraph ? firstParagraph.textContent : tempDiv.textContent || "").trim();
-                if (text.length < 20 || text.includes('episode of my podcast')) {
-                    const currentLang = document.documentElement.lang || 'en';
-                    return translations[currentLang].episodeDefaultDesc;
-                }
-                if (text.length > 150) {
-                    return text.substring(0, 147) + '...';
-                }
-                return text;
+            const start = currentEpisodePage * EPISODES_PER_PAGE;
+            const end = start + EPISODES_PER_PAGE;
+            const episodesToDisplay = allEpisodes.slice(start, end);
+
+            episodeList.innerHTML = ''; // Clear previous episodes
+            if (loader) loader.style.display = 'none';
+
+            episodesToDisplay.forEach(item => {
+                const episodeCard = document.createElement('div');
+                episodeCard.className = 'audio-player-container bg-white rounded-lg shadow-lg overflow-hidden fade-in';
+                const description = getCleanDescription(item.description);
+                const pubDate = new Date(item.pubDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+                const thumbnail = item.thumbnail || `https://placehold.co/600x400/1e293b/ffffff?text=${encodeURIComponent(item.title)}`;
+                
+                episodeCard.innerHTML = `
+                    <img src="${thumbnail}" alt="${item.title}" class="episode-thumbnail" onerror="this.onerror=null;this.src='https://placehold.co/600x400/1e293b/ffffff?text=Image+Not+Found';">
+                    <div class="p-6 flex-grow">
+                        <p class="text-sm text-slate-500 mb-2">${pubDate}</p>
+                        <h3 class="font-bold text-xl mb-3 text-slate-900">${item.title}</h3>
+                        <p class="text-slate-600 leading-relaxed">${description}</p>
+                    </div>
+                    <div class="bg-slate-100 p-4 mt-auto border-t border-slate-200">
+                        <audio controls preload="none" class="w-full">
+                            <source src="${item.enclosure.url}" type="${item.enclosure.type}">
+                            Your browser does not support the audio element.
+                        </audio>
+                    </div>`;
+                episodeList.appendChild(episodeCard);
+            });
+
+            // Set up pagination controls
+            paginationContainer.innerHTML = '';
+            const buttonStyles = 'bg-blue-600 text-white font-semibold py-2 px-5 rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300 disabled:bg-slate-400 disabled:cursor-not-allowed';
+
+            if (allEpisodes.length > EPISODES_PER_PAGE) {
+                const prevButton = document.createElement('button');
+                prevButton.textContent = translations[currentLang].episodesShowPrevious;
+                prevButton.className = `${buttonStyles} prev-button mr-2`;
+                prevButton.disabled = currentEpisodePage === 0;
+                prevButton.onclick = () => {
+                    currentEpisodePage--;
+                    displayVisibleEpisodes();
+                };
+                paginationContainer.appendChild(prevButton);
+
+                const nextButton = document.createElement('button');
+                nextButton.textContent = translations[currentLang].episodesShowNext;
+                nextButton.className = `${buttonStyles} next-button`;
+                nextButton.disabled = end >= allEpisodes.length;
+                nextButton.onclick = () => {
+                    currentEpisodePage++;
+                    displayVisibleEpisodes();
+                };
+                paginationContainer.appendChild(nextButton);
             }
+        }
 
+        function getCleanDescription(htmlString) {
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = htmlString;
+            const firstParagraph = Array.from(tempDiv.querySelectorAll('p')).find(p => p.textContent.trim().length > 10);
+            let text = (firstParagraph ? firstParagraph.textContent : tempDiv.textContent || "").trim();
+            if (text.length < 20 || text.includes('episode of my podcast')) {
+                const currentLang = document.documentElement.lang || 'en';
+                return translations[currentLang].episodeDefaultDesc;
+            }
+            if (text.length > 150) {
+                return text.substring(0, 147) + '...';
+            }
+            return text;
+        }
+
+        async function loadEpisodes() {
+            const loader = document.getElementById('episodes-loader');
+            // The RSS feed URL is now proxied to avoid CORS issues.
+            // A proxy server is needed for this to work in a live environment.
+            // For development, a browser extension can be used to disable CORS.
+            const rssUrl = 'https://cors-anywhere.herokuapp.com/https://anchor.fm/s/2ea2228/podcast/rss';
+            
             try {
-                const response = await fetch(apiUrl);
+                const response = await fetch(rssUrl);
                 if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-                const data = await response.json();
-                if (data.status === 'ok' && data.items && data.items.length > 0) {
-                    episodeList.innerHTML = ''; // Clear the loader
-                    const recentEpisodes = data.items.slice(0, 6);
-                    recentEpisodes.forEach(item => {
-                        const episodeCard = document.createElement('div');
-                        episodeCard.className = 'audio-player-container bg-white rounded-lg shadow-lg overflow-hidden fade-in';
-                        const description = getCleanDescription(item.description);
-                        const pubDate = new Date(item.pubDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
-                        episodeCard.innerHTML = `<div class="p-6 flex-grow"><p class="text-sm text-slate-500 mb-2">${pubDate}</p><h3 class="font-bold text-xl mb-3 text-slate-900">${item.title}</h3><p class="text-slate-600 leading-relaxed">${description}</p></div><div class="bg-slate-100 p-4 mt-auto border-t border-slate-200"><audio controls preload="none" class="w-full"><source src="${item.enclosure.link}" type="${item.enclosure.type}">Your browser does not support the audio element.</audio></div>`;
-                        episodeList.appendChild(episodeCard);
-                    });
-                } else {
-                    throw new Error('Failed to load podcast feed from the API.');
-                }
+                const xmlText = await response.text();
+                
+                const parser = new DOMParser();
+                const xmlDoc = parser.parseFromString(xmlText, "application/xml");
+
+                const items = xmlDoc.querySelectorAll("item");
+                const parsedEpisodes = Array.from(items).map(item => {
+                    const enclosure = item.querySelector("enclosure");
+                    const itunesImage = item.querySelector("image[href], *[itunes\\:image][href]");
+
+                    return {
+                        title: item.querySelector("title")?.textContent || "",
+                        description: item.querySelector("description")?.textContent || "",
+                        pubDate: item.querySelector("pubDate")?.textContent || "",
+                        enclosure: {
+                            url: enclosure?.getAttribute("url") || "",
+                            type: enclosure?.getAttribute("type") || ""
+                        },
+                        thumbnail: itunesImage?.getAttribute("href") || null
+                    };
+                });
+                
+                allEpisodes = parsedEpisodes.sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
+                currentEpisodePage = 0;
+                displayVisibleEpisodes();
+
             } catch (error) {
-                console.error("Error fetching podcast episodes:", error);
-                loader.innerHTML = `<p class="text-center col-span-full text-red-500">Sorry, we couldn't load the episodes right now.</p>`;
+                console.error("Error fetching or parsing RSS feed:", error);
+                if(loader) loader.innerHTML = `<p class="text-center col-span-full text-red-500">Sorry, we couldn't load the episodes right now. This might be due to network restrictions (CORS). Please try again later or contact support.</p>`;
             }
         }
        
@@ -403,19 +509,15 @@
         function displayVisibleNews() {
             const newsList = document.getElementById('news-list');
             const paginationContainer = document.getElementById('news-pagination');
+            const loader = document.getElementById('news-loader');
             const currentLang = document.documentElement.lang || 'en';
 
-            // Calculate the slice of news to display
             const start = 0;
             const end = (currentNewsPage + 1) * NEWS_PER_PAGE;
             const newsToDisplay = allNews.slice(start, end);
 
-            // Clear previous news items but keep the loader if it's the initial load
-            const loader = document.getElementById('news-loader');
             newsList.innerHTML = '';
-            if (loader) {
-                newsList.appendChild(loader);
-            }
+            if (loader) newsList.appendChild(loader);
 
             if (newsToDisplay.length === 0 && allNews.length > 0) {
                  if (loader) loader.style.display = 'none';
@@ -423,23 +525,20 @@
                  return;
             }
             
-            // Render the news cards
             newsToDisplay.forEach(item => {
                 const newsCard = document.createElement('div');
                 newsCard.className = 'news-card bg-white rounded-lg shadow-lg p-6 fade-in';
-                newsCard.style.display = 'none'; // Initially hide for animation
+                newsCard.style.display = 'none';
                 newsCard.innerHTML = `
                     <p class="text-sm text-slate-500 mb-2">${item.date}</p>
                     <h3 class="font-bold text-xl mb-3 text-slate-900">${item.header}</h3>
                     <p class="text-slate-600 leading-relaxed">${item.text}</p>
                 `;
                 newsList.appendChild(newsCard);
-                // Stagger the fade-in animation
                 setTimeout(() => { newsCard.style.display = 'flex'; }, 10);
             });
              if (loader) loader.style.display = 'none';
             
-            // Clear and update pagination button
             paginationContainer.innerHTML = '';
             if (end < allNews.length) {
                 const loadMoreBtn = document.createElement('button');
@@ -456,6 +555,7 @@
         async function loadNews() {
             const newsList = document.getElementById('news-list');
             const paginationContainer = document.getElementById('news-pagination');
+            const loader = document.getElementById('news-loader');
             const sheetId = '1kmqmsKGem7jT1o6fdcjkAJWilTgJFnYzY7dmj3-6pRM';
             const sheetUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv`;
 
@@ -466,26 +566,21 @@
                 
                 const rows = csvText.trim().split('\n').slice(1);
                 const newsItems = rows.map(row => {
-                    // This regex handles CSV fields that may be quoted
                     const columns = row.match(/(".*?"|[^",]+)(?=\s*,|\s*$)/g) || [];
                     const cleanedColumns = columns.map(field => field.trim().replace(/^"|"$/g, ''));
                     if (cleanedColumns.length >= 3) {
                          return { date: cleanedColumns[0], header: cleanedColumns[1], text: cleanedColumns[2] };
                     }
                     return null;
-                }).filter(item => item && item.header && item.date); // Ensure item is valid
+                }).filter(item => item && item.header && item.date);
 
-                // Store all news, reversed to show most recent first
                 allNews = newsItems.reverse();
-                
-                // Initial display
                 currentNewsPage = 0;
                 displayVisibleNews();
 
             } catch(error) {
                 console.error("Error fetching news:", error);
-                newsList.innerHTML = ''; // Clear loader
-                paginationContainer.innerHTML = `<p class="text-center text-red-500">Sorry, we couldn't load the news right now.</p>`;
+                if(loader) loader.parentElement.innerHTML = `<p class="text-center text-red-500">Sorry, we couldn't load the news right now.</p>`;
             }
         }
 
