@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ukrainian radio program 'Ukraine in the heart of everyone'</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc; /* slate-50 */
+        }
+        .audio-player-container, .news-card {
+            transition: all 0.3s ease-in-out;
+            display: flex;
+            flex-direction: column;
+        }
+        .audio-player-container:hover, .news-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+        .fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        audio {
+            width: 100%;
+            border-radius: 0.5rem;
+        }
+        .hero-bg {
+             background-color: #0057b7; /* Ukrainian blue */
+        }
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-in-out;
+        }
+        .flag-icon {
+            cursor: pointer;
+            width: 32px;
+            height: 24px;
+            border-radius: 4px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+        }
+        .flag-icon:hover {
+            transform: scale(1.1);
+        }
+        .accordion-button svg {
+            transition: transform 0.3s ease;
+        }
+        .accordion-button.open svg {
+            transform: rotate(180deg);
+        }
+        #rotating-hero-subtitle {
+             min-height: 4rem; 
+        }
+    </style>
+</head>
+<body class="text-slate-800">
+
+    <!-- Header -->
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#home" class="text-xl md:text-2xl font-bold text-slate-900" data-lang-key="navTitle">Ukraine in the Heart</a>
+            <div class="hidden md:flex items-center space-x-6">
+                <a href="#home" class="text-slate-600 hover:text-slate-900 transition-colors duration-300" data-lang-key="navHome">Home</a>
+                <a href="#news" class="text-slate-600 hover:text-slate-900 transition-colors duration-300" data-lang-key="navNews">News</a>
+                <a href="#episodes" class="text-slate-600 hover:text-slate-900 transition-colors duration-300" data-lang-key="navEpisodes">Episodes</a>
+                <a href="#about" class="text-slate-600 hover:text-slate-900 transition-colors duration-300" data-lang-key="navAbout">About</a>
+                <a href="#support-subscribe" class="bg-yellow-400 text-blue-900 font-bold py-2 px-4 rounded-lg hover:bg-yellow-500 transition-colors" data-lang-key="navSupport">Support Us</a>
+                <div class="flex items-center space-x-3 pl-4 border-l">
+                    <img src="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7/flags/4x3/us.svg" alt="English" class="flag-icon" onclick="translatePage('en')">
+                    <img src="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7/flags/4x3/ua.svg" alt="Ukrainian" class="flag-icon" onclick="translatePage('uk')">
+                </div>
+            </div>
+            <button id="mobile-menu-button" class="md:hidden flex items-center text-slate-600">
+                 <i class="fas fa-bars text-2xl"></i>
+            </button>
+        </nav>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden px-6 pb-4">
+            <a href="#home" class="block py-2 text-slate-600 hover:text-slate-900" data-lang-key="navHome">Home</a>
+            <a href="#news" class="block py-2 text-slate-600 hover:text-slate-900" data-lang-key="navNews">News</a>
+            <a href="#episodes" class="block py-2 text-slate-600 hover:text-slate-900" data-lang-key="navEpisodes">Episodes</a>
+            <a href="#about" class="block py-2 text-slate-600 hover:text-slate-900" data-lang-key="navAbout">About</a>
+            <a href="#support-subscribe" class="block py-2 mt-2 text-center bg-yellow-400 text-blue-900 font-bold rounded-lg hover:bg-yellow-500 transition-colors" data-lang-key="navSupport">Support Us</a>
+            <div class="flex items-center space-x-4 pt-4 mt-4 border-t justify-center">
+                <img src="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7/flags/4x3/us.svg" alt="English" class="flag-icon" onclick="translatePage('en')">
+                <img src="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7/flags/4x3/ua.svg" alt="Ukrainian" class="flag-icon" onclick="translatePage('uk')">
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <main id="home" class="hero-bg text-white">
+        <div class="container mx-auto px-6 py-20 md:py-32 text-center flex flex-col items-center">
+             <h1 class="text-4xl md:text-6xl font-bold mb-4" data-lang-key="heroTitle">Ukrainian Radio Program</h1>
+             <h2 id="rotating-hero-subtitle" class="text-2xl md:text-4xl font-semibold text-yellow-300 mb-8 transition-opacity duration-700 ease-in-out"></h2>
+             <p class="text-lg md:text-xl text-blue-100 max-w-3xl mx-auto mb-10" data-lang-key="heroDescription">
+                Broadcasting from Pittsburgh, PA, we bring you news, culture, and stories connecting the Ukrainian community.
+            </p>
+            <div class="flex justify-center items-center flex-wrap gap-4">
+                <a href="https://podcasters.spotify.com/pod/show/ukrainianradioprogram" target="_blank" class="bg-green-500 text-white font-semibold py-3 px-6 rounded-lg shadow-md hover:bg-green-600 transition-all duration-300 flex items-center space-x-2">
+                    <i class="fab fa-spotify"></i>
+                    <span data-lang-key="heroSpotify">Listen on Spotify</span>
+                </a>
+                <a href="https://www.paypal.com/donate?business=ostaplernatovych%40gmail.com&item_name=Donation+for+Ukraine+in+the+heart+of+everyone&currency_code=USD" target="_blank" class="bg-gray-100 text-blue-800 font-semibold py-3 px-6 rounded-lg shadow-md hover:bg-white transition-all duration-300 flex items-center space-x-2">
+                    <i class="fab fa-paypal"></i>
+                    <span data-lang-key="heroSupport">Support Us</span>
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <!-- News Section -->
+    <section id="news" class="py-20 bg-white">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl font-bold text-center text-slate-900 mb-12" data-lang-key="newsTitle">Latest News</h2>
+            <div class="space-y-6 max-w-4xl mx-auto" id="news-list">
+                 <div class="text-center col-span-full" id="news-loader">
+                    <i class="fas fa-spinner fa-spin text-4xl text-blue-600"></i>
+                    <p class="mt-2 text-slate-500" data-lang-key="newsLoading">Loading latest news...</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Episodes Section -->
+    <section id="episodes" class="bg-slate-50 py-20">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl font-bold text-center text-slate-900 mb-12" data-lang-key="episodesTitle">Latest Episodes</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="episode-list">
+                 <div class="text-center col-span-full" id="episodes-loader">
+                    <i class="fas fa-spinner fa-spin text-4xl text-blue-600"></i>
+                    <p class="mt-2 text-slate-500" data-lang-key="episodesLoading">Loading latest episodes...</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-20 bg-white">
+        <div class="container mx-auto px-6">
+             <h2 class="text-3xl font-bold text-center text-slate-900 mb-12" data-lang-key="aboutTitle">About the Program & Hosts</h2>
+             <div class="max-w-4xl mx-auto">
+                <p class="text-slate-600 mb-4 leading-relaxed text-center" data-lang-key="aboutDescription">
+                    The "Ukraine in the heart of everyone" radio program is a vital link for the Ukrainian community in Pittsburgh and beyond. Our mission is to keep the spirit of Ukraine alive, to inform, and to unite our listeners through the power of radio and podcasting. Meet the team below.
+                </p>
+                
+                <div class="space-y-4 mt-8">
+                    <!-- Oksana Lernatovych -->
+                    <div class="border rounded-lg bg-white">
+                        <button class="accordion-button w-full flex justify-between items-center p-5 text-left font-semibold text-lg hover:bg-slate-50">
+                            <span data-lang-key="host1_name">Oksana Lernatovych</span>
+                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <div class="accordion-content">
+                            <div class="p-5 border-t prose max-w-none" data-lang-key="host1_resume"></div>
+                        </div>
+                    </div>
+                    <!-- Zinoviy Levkovskiy -->
+                    <div class="border rounded-lg bg-white">
+                         <button class="accordion-button w-full flex justify-between items-center p-5 text-left font-semibold text-lg hover:bg-slate-50">
+                            <span data-lang-key="host2_name">Zinoviy Levkovskiy</span>
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <div class="accordion-content">
+                            <div class="p-5 border-t prose max-w-none" data-lang-key="host2_resume"></div>
+                        </div>
+                    </div>
+                    <!-- Volodymyr Lernatovych -->
+                     <div class="border rounded-lg bg-white">
+                        <button class="accordion-button w-full flex justify-between items-center p-5 text-left font-semibold text-lg hover:bg-slate-50">
+                            <span data-lang-key="host3_name">Volodymyr Lernatovych</span>
+                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <div class="accordion-content">
+                            <div class="p-5 border-t prose max-w-none" data-lang-key="host3_resume"></div>
+                        </div>
+                    </div>
+                </div>
+             </div>
+        </div>
+    </section>
+
+    <!-- Support & Subscribe Section -->
+    <section id="support-subscribe" class="bg-slate-800 text-white py-20">
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="text-3xl font-bold mb-4" data-lang-key="supportTitle">Support Our Program</h2>
+            <p class="text-slate-300 mb-8 max-w-2xl mx-auto" data-lang-key="supportDescription">Your generous donations help us continue our mission. Every contribution makes a difference. Thank you for your support!</p>
+            
+            <div class="mb-12">
+                 <a href="https://www.paypal.com/donate?business=ostaplernatovych%40gmail.com&item_name=Donation+for+Ukraine+in+the+heart+of+everyone&currency_code=USD" target="_blank" class="bg-yellow-400 text-blue-900 font-semibold py-4 px-8 rounded-lg shadow-md hover:bg-yellow-300 transition-all duration-300 inline-flex items-center space-x-3 text-lg">
+                    <i class="fab fa-paypal"></i>
+                    <span data-lang-key="supportDonate">Donate via PayPal</span>
+                </a>
+            </div>
+            
+             <hr class="border-slate-600 my-12 max-w-md mx-auto">
+             
+            <h3 class="text-2xl font-bold mb-4" data-lang-key="subscribePlatformsTitle">Find Us On Social Media & Podcast Platforms</h3>
+            <div class="flex justify-center flex-wrap gap-4 mt-8">
+                 <a href="https://podcasters.spotify.com/pod/show/ukrainianradioprogram" target="_blank" class="bg-slate-700 text-white font-semibold py-3 px-5 rounded-lg hover:bg-green-500 transition-colors flex items-center space-x-2"><i class="fab fa-spotify"></i><span>Spotify</span></a>
+                 <a href="https://podcasts.apple.com/us/podcast/ukrainian-radio-program-ukraine-in-the-heart-of-everyone/id1524333633" target="_blank" class="bg-slate-700 text-white font-semibold py-3 px-5 rounded-lg hover:bg-purple-600 transition-colors flex items-center space-x-2"><i class="fab fa-apple"></i><span>Apple Podcasts</span></a>
+                 <a href="https://www.youtube.com/@oksanalernatovych7212" target="_blank" class="bg-slate-700 text-white font-semibold py-3 px-5 rounded-lg hover:bg-red-600 transition-colors flex items-center space-x-2"><i class="fab fa-youtube"></i><span>YouTube</span></a>
+                 <a href="https://www.facebook.com/groups/177201432334094/" target="_blank" class="bg-slate-700 text-white font-semibold py-3 px-5 rounded-lg hover:bg-blue-600 transition-colors flex items-center space-x-2"><i class="fab fa-facebook"></i><span>Facebook</span></a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-white">
+        <div class="container mx-auto px-6 py-8 text-center">
+            <div class="mb-6">
+                <h4 class="font-bold text-lg mb-2 text-slate-700" data-lang-key="contactTitle">Contact Us</h4>
+                <div class="text-slate-500 space-y-1">
+                    <p><i class="fas fa-phone mr-2 text-slate-400"></i><a href="tel:412-478-1329" class="hover:text-blue-500">412-478-1329</a></p>
+                    <p><i class="fas fa-envelope mr-2 text-slate-400"></i><a href="mailto:lernatovych@gmail.com" class="hover:text-blue-500">lernatovych@gmail.com</a></p>
+                </div>
+            </div>
+            <div class="border-t border-slate-200 pt-6 text-slate-500">
+                <p data-lang-key="footerText">&copy; 2024 Ukrainian Radio Program 'Ukraine in the heart of everyone'.</p>
+                <p class="text-sm mt-2" data-lang-key="creatorCredit">Website created by <a href="https://ostap.com/" target="_blank" class="text-blue-500 hover:underline">Ostap Lernatovych</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // --- Translations Object ---
+        const translations = {
+            en: {
+                navTitle: "Ukraine in the Heart",
+                navHome: "Home",
+                navEpisodes: "Episodes",
+                navNews: "News",
+                navAbout: "About",
+                navSupport: "Support Us",
+                heroTitle: "Ukrainian Radio Program",
+                heroDescription: "Broadcasting from Pittsburgh, PA, we bring you news, culture, and stories connecting the Ukrainian community.",
+                heroSpotify: "Listen on Spotify",
+                heroSupport: "Support Us",
+                episodesTitle: "Latest Episodes",
+                episodesLoading: "Loading latest episodes...",
+                episodeDefaultDesc: "Listen to the latest program for news, culture, and stories from the Ukrainian community.",
+                newsTitle: "Latest News",
+                newsLoading: "Loading latest news...",
+                aboutTitle: "About the Program & Hosts",
+                aboutDescription: "The \"Ukraine in the heart of everyone\" radio program is a vital link for the Ukrainian community in Pittsburgh and beyond. Our mission is to keep the spirit of Ukraine alive, to inform, and to unite our listeners through the power of radio and podcasting. Meet the team below.",
+                host1_name: "Oksana Lernatovych",
+                host1_resume: `<p>Born in Lviv, Ukraine on August 13, 1966.</p><ul><li><b>1983:</b> Graduated from Lviv High School.</li><li><b>1988:</b> Graduated from the Lviv University School of Journalism.</li><li><b>1988-1989:</b> Worked as a correspondent with the Volyn newspaper Slovo Pravdi.</li><li><b>1990-1995:</b> Returned to Lviv and worked as a correspondent with the newspaper Za Vilny Ukrainu, the first newspaper published during the newly independent Ukraine.</li><li><b>1992:</b> Accepted as a member of the Union of Ukrainian Journalists.</li><li><b>1995:</b> Worked as the editor of the resurrected newspaper Silskiy Hospodar.</li><li><b>1999-2004:</b> Managed the advertising department at Lviv State Radio, founding projects like "Successful Business" and "The Week in Lviv".</li><li><b>2005-Present:</b> Continues work in the Ukrainian Diaspora in the US, contributing to the Ukrainian Radio Program in Pittsburgh, writing for newspapers, and producing video programs for Lviv Television. She is the editor, producer, and on-air host of "Ukraine in the heart of everyone".</li></ul><p>Oksana is married to Volodymyr Lernatovych, and they have three children: Anya, Ostap, and Nestor.</p>`,
+                host2_name: "Zinoviy Levkovskiy",
+                host2_resume: `<p>Born on December 26, 1953.</p><ul><li>Graduated from a music boarding school (piano class), then the Lviv Conservatory in 1980.</li><li><b>Until 1986:</b> Continued his development at the Lviv Philharmonic with the ensemble "Vatra" alongside Oksana and Igor Bilozir.</li><li>Next, worked at the Rivne Philharmonic with the group "Zhayvir", which later moved to Moscow and successfully toured the USSR with the famous Russian singer Irina Ponarovskaya until 1990.</li><li><b>Until 2000:</b> Returned to Lviv for studio work with Igor Bilozir.</li><li>Later, worked as a Senior Sound Engineer at Lviv State Television and Radio Company (Lviv Radio).</li><li><b>From 2010:</b> Producer and sound engineer for Oksana Lernatovych's internet radio project "Ukraine in the heart of everyone," broadcasted by the Ukrainian programs editorial office of Radio Pittsburgh, Pennsylvania, USA.</li></ul><p>To collaborate, contact: Lzm211253@gmail.com. Some programs can also be found on YouTube under the project's name.</p>`,
+                host3_name: "Volodymyr Lernatovych",
+                host3_resume: `<p>A regular commentator and co-author of the program.</p><ul><li>Born on November 18, 1962, in Lviv.</li><li>He holds a PhD in Political Science and is an Associate Professor at the Department of Theory and Practice of Journalism at Ivan Franko National University of Lviv.</li><li>He was the first researcher of 'Right-wing radicalism in Ukraine'.</li><li>Author of about 200 publications in periodicals and over 50 in academic journals.</li><li>He is a political commentator for the Ukrainian radio in Pittsburgh (USA), a member of the National Union of Journalists of Ukraine, and a member of the editorial board of the journal "Volya i Batkivshchyna" (Will and Fatherland).</li></ul>`,
+                supportTitle: "Support Our Program",
+                supportDescription: "Your generous donations help us continue our mission. Every contribution makes a difference. Thank you for your support!",
+                supportDonate: "Donate via PayPal",
+                subscribePlatformsTitle: "Find Us On Social Media & Podcast Platforms",
+                contactTitle: "Contact Us",
+                footerText: "© 2024 Ukrainian Radio Program 'Ukraine in the heart of everyone'.",
+                creatorCredit: `Website created by <a href="https://ostap.com/" target="_blank" class="text-blue-500 hover:underline">Ostap Lernatovych</a>`
+            },
+            uk: {
+                navTitle: "Україна в серці",
+                navHome: "Головна",
+                navEpisodes: "Епізоди",
+                navNews: "Новини",
+                navAbout: "Про нас",
+                navSupport: "Підтримати",
+                heroTitle: "Українська радіо програма",
+                heroDescription: "Мовлення з Піттсбурга, Пенсильванія. Ми пропонуємо вам новини, культуру та історії, що єднають українську громаду.",
+                heroSpotify: "Слухати на Spotify",
+                heroSupport: "Підтримати",
+                episodesTitle: "Останні випуски",
+                episodesLoading: "Завантаження останніх випусків...",
+                episodeDefaultDesc: "Слухайте останню програму, щоб дізнатися новини, культурні події та історії української громади.",
+                newsTitle: "Останні новини",
+                newsLoading: "Завантаження останніх новин...",
+                aboutTitle: "Про програму та ведучих",
+                aboutDescription: "Радіопрограма «Україна у серці одна» — це життєво важливий зв'язок для української громади в Піттсбурзі та за його межами. Наша місія — підтримувати дух України, інформувати та об'єднувати наших слухачів за допомогою радіо та подкастингу. Знайомтеся з командою нижче.",
+                host1_name: "Оксана Лернатович",
+                host1_resume: `<p>Народилася у Львові, Україна, 13 серпня 1966 року.</p><ul><li><b>1983:</b> Закінчила Львівську середню школу.</li><li><b>1988:</b> Закінчила факультет журналістики Львівського університету.</li><li><b>1988-1989:</b> Працювала кореспондентом волинської газети «Слово Правди».</li><li><b>1990-1995:</b> Повернулася до Львова і працювала кореспондентом газети «За вільну Україну», першої газети, виданої за часів нової незалежної України.</li><li><b>1992:</b> Прийнята до Спілки журналістів України.</li><li><b>1995:</b> Працювала редактором відродженої газети «Сільський господар».</li><li><b>1999-2004:</b> Керувала рекламним відділом на Львівському державному радіо, заснувавши такі проекти, як «Успішний бізнес» та «Тиждень у Львові».</li><li><b>2005-дотепер:</b> Продовжує роботу в українській діаспорі в США, бере участь в Українській радіопрограмі в Піттсбурзі, пише для газет та продюсує відеопрограми для Львівського телебачення. Вона є редактором, продюсером та ведучою програми «Україна у серці одна».</li></ul><p>Оксана одружена з Володимиром Лернатовичем, у них троє дітей: Аня, Остап та Нестор.</p>`,
+                host2_name: "Зіновій Левковський",
+                host2_resume: `<p>Народився 26 грудня 1953р.</p><ul><li>Закінчив музшколу-інтернат по класу фортепіано, потім Львівську консерваторію у 1980 р.</li><li><b>до 1986р:</b> Разом з Оксаною та Ігорем Білозірами продовжив становлення у Львівській філармонії в ансамблі "Ватра".</li><li>Далі працював у Рівненській філармонії в гурті "Жайвір", який пізніше перебрався до Москви і разом з відомою російською співачкою Іриною Понаровською успішно гастролював по СРСР до 1990р.</li><li><b>до 2000р:</b> Повернувся до Львова для студійної роботи з Ігорем Білозіром.</li><li>Пізніше працював старшим звукорежисером Львівського Радіо в Львівській держтелерадіокомпанії.</li><li><b>З 2010 року:</b> Продюсер і звукорежисер інтернет-радіопроєкту львівської журналістки Оксани Лернатович "Україна у серці одна", який реалізований в редакції українських програм Радіо Піттсбург, Пенсильванія, США.</li></ul><p>Для співпраці звертайтеся: Lzm211253@gmail.com. Деякі програми можна почути на YouTube за назвою проєкту.</p>`,
+                host3_name: "Володимир Лернатович",
+                host3_resume: `<p>Постійний коментатор та співавтор програми.</p><ul><li>Народився 18 листопада 1962 року, м. Львів.</li><li>Кандидат політичних наук, доцент кафедри теорії і практики журналістики ЛНУ імені Івана Франка.</li><li>Перший дослідник "Правого радикалізму в Україні".</li><li>Автор близько 200 публікацій у періодичних виданнях та більше 50 у наукових журналах.</li><li>Політичний коментатор українського радіо міста Піттсбург (США), член НСЖУ, член редколегії журналу «Воля і Батьківщина».</li></ul>`,
+                supportTitle: "Підтримайте нашу програму",
+                supportDescription: "Ваші щедрі пожертви допомагають нам продовжувати нашу місію. Кожен внесок має значення. Дякуємо за вашу підтримку!",
+                supportDonate: "Пожертвувати через PayPal",
+                subscribePlatformsTitle: "Знайдіть нас у соцмережах та на подкаст-платформах",
+                contactTitle: "Контакти",
+                footerText: "© 2024 Українська радіо програма 'Україна у серці одна'.",
+                creatorCredit: `Веб-сайт створено <a href="https://ostap.com/" target="_blank" class="text-blue-500 hover:underline">Остапом Лернатовичем</a>`
+            }
+        };
+
+        // --- Translate Page Function ---
+        function translatePage(lang) {
+            document.querySelectorAll('[data-lang-key]').forEach(el => {
+                const key = el.getAttribute('data-lang-key');
+                if (translations[lang] && translations[lang][key]) {
+                    el.innerHTML = translations[lang][key];
+                }
+            });
+            document.documentElement.lang = lang;
+        }
+
+        // --- Accordion Toggle ---
+        function setupAccordions() {
+             document.querySelectorAll('.accordion-button').forEach(button => {
+                button.addEventListener('click', () => {
+                    const content = button.nextElementSibling;
+                    button.classList.toggle('open');
+                    if (content.style.maxHeight) {
+                        content.style.maxHeight = null;
+                    } else {
+                        content.style.maxHeight = content.scrollHeight + "px";
+                    }
+                });
+            });
+        }
+        
+        // --- Mobile Menu Toggle ---
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // --- Dynamic Episode Loading ---
+        async function loadEpisodes() {
+            const episodeList = document.getElementById('episode-list');
+            const loader = document.getElementById('episodes-loader');
+            const rssUrl = 'https://anchor.fm/s/2ea2228/podcast/rss';
+            const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}`;
+
+            function getCleanDescription(htmlString) {
+                const tempDiv = document.createElement('div');
+                tempDiv.innerHTML = htmlString;
+                const firstParagraph = Array.from(tempDiv.querySelectorAll('p')).find(p => p.textContent.trim().length > 10);
+                let text = (firstParagraph ? firstParagraph.textContent : tempDiv.textContent || "").trim();
+                if (text.length < 20 || text.includes('episode of my podcast')) {
+                    const currentLang = document.documentElement.lang || 'en';
+                    return translations[currentLang].episodeDefaultDesc;
+                }
+                if (text.length > 150) {
+                    return text.substring(0, 147) + '...';
+                }
+                return text;
+            }
+
+            try {
+                const response = await fetch(apiUrl);
+                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                const data = await response.json();
+                if (data.status === 'ok' && data.items && data.items.length > 0) {
+                    episodeList.innerHTML = ''; // Clear the loader
+                    const recentEpisodes = data.items.slice(0, 6);
+                    recentEpisodes.forEach(item => {
+                        const episodeCard = document.createElement('div');
+                        episodeCard.className = 'audio-player-container bg-white rounded-lg shadow-lg overflow-hidden fade-in';
+                        const description = getCleanDescription(item.description);
+                        const pubDate = new Date(item.pubDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+                        episodeCard.innerHTML = `<div class="p-6 flex-grow"><p class="text-sm text-slate-500 mb-2">${pubDate}</p><h3 class="font-bold text-xl mb-3 text-slate-900">${item.title}</h3><p class="text-slate-600 leading-relaxed">${description}</p></div><div class="bg-slate-100 p-4 mt-auto border-t border-slate-200"><audio controls preload="none" class="w-full"><source src="${item.enclosure.link}" type="${item.enclosure.type}">Your browser does not support the audio element.</audio></div>`;
+                        episodeList.appendChild(episodeCard);
+                    });
+                } else {
+                    throw new Error('Failed to load podcast feed from the API.');
+                }
+            } catch (error) {
+                console.error("Error fetching podcast episodes:", error);
+                loader.innerHTML = `<p class="text-center col-span-full text-red-500">Sorry, we couldn't load the episodes right now.</p>`;
+            }
+        }
+        
+        // --- Dynamic News Loading ---
+        async function loadNews() {
+            const newsList = document.getElementById('news-list');
+            const loader = document.getElementById('news-loader');
+            const sheetId = '1kmqmsKGem7jT1o6fdcjkAJWilTgJFnYzY7dmj3-6pRM';
+            // Use gviz API to get CSV data from the public sheet
+            const sheetUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv`;
+
+            try {
+                const response = await fetch(sheetUrl);
+                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                const csvText = await response.text();
+                
+                // Parse CSV - a simple parser assuming no commas within quoted fields
+                const rows = csvText.split('\n').slice(1); // Skip header row
+                const newsItems = rows.map(row => {
+                    const columns = row.split(',').map(field => field.trim().replace(/^"|"$/g, ''));
+                    if (columns.length >= 3) {
+                         return { date: columns[0], header: columns[1], text: columns[2] };
+                    }
+                    return null;
+                }).filter(item => item && item.header); // Filter out empty rows
+
+                newsList.innerHTML = ''; // Clear loader
+                
+                // Get all news items and reverse them to show most recent first
+                const allNews = newsItems.reverse();
+
+                if (allNews.length === 0) {
+                     newsList.innerHTML = `<p class="text-center text-slate-500">No news articles found.</p>`;
+                     return;
+                }
+
+                allNews.forEach(item => {
+                    const newsCard = document.createElement('div');
+                    newsCard.className = 'news-card bg-white rounded-lg shadow-lg p-6 fade-in';
+                    newsCard.innerHTML = `
+                        <p class="text-sm text-slate-500 mb-2">${item.date}</p>
+                        <h3 class="font-bold text-xl mb-3 text-slate-900">${item.header}</h3>
+                        <p class="text-slate-600 leading-relaxed">${item.text}</p>
+                    `;
+                    newsList.appendChild(newsCard);
+                });
+
+            } catch(error) {
+                console.error("Error fetching news:", error);
+                loader.innerHTML = `<p class="text-center text-red-500">Sorry, we couldn't load the news right now.</p>`;
+            }
+        }
+
+        // --- Hero Subtitle Text Rotator ---
+        function startSubtitleRotation() {
+            const rotatingElement = document.getElementById('rotating-hero-subtitle');
+            if (!rotatingElement) return;
+            const texts = ["Ukraine In The Heart of Everyone", "Україна у серці одна", "Christ Among Us", "Христос по серед нас"];
+            let currentIndex = 0;
+            rotatingElement.textContent = texts[currentIndex];
+            setInterval(() => {
+                rotatingElement.style.opacity = '0';
+                setTimeout(() => {
+                    currentIndex = (currentIndex + 1) % texts.length;
+                    rotatingElement.textContent = texts[currentIndex];
+                    rotatingElement.style.opacity = '1';
+                }, 700);
+            }, 3000);
+        }
+
+        // --- Initial Load ---
+        document.addEventListener('DOMContentLoaded', () => {
+            translatePage('en'); 
+            loadEpisodes();
+            loadNews();
+            setupAccordions();
+            startSubtitleRotation();
+        });
+
+    </script>
+</body>
+</html>
