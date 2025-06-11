@@ -35,8 +35,12 @@
             width: 100%;
             border-radius: 0.5rem;
         }
+        /* Updated Hero Background Style */
         .hero-bg {
-             background-color: #0057b7; /* Ukrainian blue */
+            background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1622393168445-ed318ea0554f?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed; /* Creates a nice parallax effect */
         }
         .accordion-content {
             max-height: 0;
@@ -105,7 +109,7 @@
         <div class="container mx-auto px-6 py-20 md:py-32 text-center flex flex-col items-center">
              <h1 class="text-4xl md:text-6xl font-bold mb-4" data-lang-key="heroTitle">Ukrainian Radio Program</h1>
              <h2 id="rotating-hero-subtitle" class="text-2xl md:text-4xl font-semibold text-yellow-300 mb-8 transition-opacity duration-700 ease-in-out"></h2>
-             <p class="text-lg md:text-xl text-blue-100 max-w-3xl mx-auto mb-10" data-lang-key="heroDescription">
+             <p class="text-lg md:text-xl text-slate-100 max-w-3xl mx-auto mb-10" data-lang-key="heroDescription">
                 Broadcasting from Pittsburgh, PA, we bring you news, culture, and stories connecting the Ukrainian community.
             </p>
             <div class="flex justify-center items-center flex-wrap gap-4">
@@ -131,6 +135,8 @@
                     <p class="mt-2 text-slate-500" data-lang-key="newsLoading">Loading latest news...</p>
                 </div>
             </div>
+            <!-- Pagination button will be injected here -->
+            <div id="news-pagination" class="text-center mt-12"></div>
         </div>
     </section>
 
@@ -155,7 +161,7 @@
                 <p class="text-slate-600 mb-4 leading-relaxed text-center" data-lang-key="aboutDescription">
                     The "Ukraine in the heart of everyone" radio program is a vital link for the Ukrainian community in Pittsburgh and beyond. Our mission is to keep the spirit of Ukraine alive, to inform, and to unite our listeners through the power of radio and podcasting. Meet the team below.
                 </p>
-                
+               
                 <div class="space-y-4 mt-8">
                     <!-- Oksana Lernatovych -->
                     <div class="border rounded-lg bg-white">
@@ -197,21 +203,21 @@
         <div class="container mx-auto px-6 text-center">
             <h2 class="text-3xl font-bold mb-4" data-lang-key="supportTitle">Support Our Program</h2>
             <p class="text-slate-300 mb-8 max-w-2xl mx-auto" data-lang-key="supportDescription">Your generous donations help us continue our mission. Every contribution makes a difference. Thank you for your support!</p>
-            
+           
             <div class="mb-12">
                  <a href="https://www.paypal.com/donate?business=ostaplernatovych%40gmail.com&item_name=Donation+for+Ukraine+in+the+heart+of+everyone&currency_code=USD" target="_blank" class="bg-yellow-400 text-blue-900 font-semibold py-4 px-8 rounded-lg shadow-md hover:bg-yellow-300 transition-all duration-300 inline-flex items-center space-x-3 text-lg">
                     <i class="fab fa-paypal"></i>
                     <span data-lang-key="supportDonate">Donate via PayPal</span>
                 </a>
             </div>
-            
+           
              <hr class="border-slate-600 my-12 max-w-md mx-auto">
-             
+            
             <h3 class="text-2xl font-bold mb-4" data-lang-key="subscribePlatformsTitle">Find Us On Social Media & Podcast Platforms</h3>
             <div class="flex justify-center flex-wrap gap-4 mt-8">
                  <a href="https://podcasters.spotify.com/pod/show/ukrainianradioprogram" target="_blank" class="bg-slate-700 text-white font-semibold py-3 px-5 rounded-lg hover:bg-green-500 transition-colors flex items-center space-x-2"><i class="fab fa-spotify"></i><span>Spotify</span></a>
                  <a href="https://podcasts.apple.com/us/podcast/ukrainian-radio-program-ukraine-in-the-heart-of-everyone/id1524333633" target="_blank" class="bg-slate-700 text-white font-semibold py-3 px-5 rounded-lg hover:bg-purple-600 transition-colors flex items-center space-x-2"><i class="fab fa-apple"></i><span>Apple Podcasts</span></a>
-                 <a href="https://www.youtube.com/@oksanalernatovych7212" target="_blank" class="bg-slate-700 text-white font-semibold py-3 px-5 rounded-lg hover:bg-red-600 transition-colors flex items-center space-x-2"><i class="fab fa-youtube"></i><span>YouTube</span></a>
+                 <a href="https://www.youtube.com/channel/UC-lA3_oE_e-cZgB3Q5r4XwQ" target="_blank" class="bg-slate-700 text-white font-semibold py-3 px-5 rounded-lg hover:bg-red-600 transition-colors flex items-center space-x-2"><i class="fab fa-youtube"></i><span>YouTube</span></a>
                  <a href="https://www.facebook.com/groups/177201432334094/" target="_blank" class="bg-slate-700 text-white font-semibold py-3 px-5 rounded-lg hover:bg-blue-600 transition-colors flex items-center space-x-2"><i class="fab fa-facebook"></i><span>Facebook</span></a>
             </div>
         </div>
@@ -253,6 +259,7 @@
                 episodeDefaultDesc: "Listen to the latest program for news, culture, and stories from the Ukrainian community.",
                 newsTitle: "Latest News",
                 newsLoading: "Loading latest news...",
+                newsShowOlder: "Show Older News",
                 aboutTitle: "About the Program & Hosts",
                 aboutDescription: "The \"Ukraine in the heart of everyone\" radio program is a vital link for the Ukrainian community in Pittsburgh and beyond. Our mission is to keep the spirit of Ukraine alive, to inform, and to unite our listeners through the power of radio and podcasting. Meet the team below.",
                 host1_name: "Oksana Lernatovych",
@@ -285,6 +292,7 @@
                 episodeDefaultDesc: "Слухайте останню програму, щоб дізнатися новини, культурні події та історії української громади.",
                 newsTitle: "Останні новини",
                 newsLoading: "Завантаження останніх новин...",
+                newsShowOlder: "Показати старіші новини",
                 aboutTitle: "Про програму та ведучих",
                 aboutDescription: "Радіопрограма «Україна у серці одна» — це життєво важливий зв'язок для української громади в Піттсбурзі та за його межами. Наша місія — підтримувати дух України, інформувати та об'єднувати наших слухачів за допомогою радіо та подкастингу. Знайомтеся з командою нижче.",
                 host1_name: "Оксана Лернатович",
@@ -312,6 +320,11 @@
                 }
             });
             document.documentElement.lang = lang;
+            // After translating, we might need to update the "Show Older News" button text if it exists
+             const loadMoreBtn = document.querySelector('#news-pagination button');
+             if (loadMoreBtn) {
+                 loadMoreBtn.textContent = translations[lang].newsShowOlder;
+             }
         }
 
         // --- Accordion Toggle ---
@@ -328,7 +341,7 @@
                 });
             });
         }
-        
+       
         // --- Mobile Menu Toggle ---
         const mobileMenuButton = document.getElementById('mobile-menu-button');
         const mobileMenu = document.getElementById('mobile-menu');
@@ -381,13 +394,69 @@
                 loader.innerHTML = `<p class="text-center col-span-full text-red-500">Sorry, we couldn't load the episodes right now.</p>`;
             }
         }
-        
-        // --- Dynamic News Loading ---
+       
+        // --- Dynamic News Loading with Pagination ---
+        let allNews = [];
+        let currentNewsPage = 0;
+        const NEWS_PER_PAGE = 5;
+
+        function displayVisibleNews() {
+            const newsList = document.getElementById('news-list');
+            const paginationContainer = document.getElementById('news-pagination');
+            const currentLang = document.documentElement.lang || 'en';
+
+            // Calculate the slice of news to display
+            const start = 0;
+            const end = (currentNewsPage + 1) * NEWS_PER_PAGE;
+            const newsToDisplay = allNews.slice(start, end);
+
+            // Clear previous news items but keep the loader if it's the initial load
+            const loader = document.getElementById('news-loader');
+            newsList.innerHTML = '';
+            if (loader) {
+                newsList.appendChild(loader);
+            }
+
+            if (newsToDisplay.length === 0 && allNews.length > 0) {
+                 if (loader) loader.style.display = 'none';
+                 newsList.innerHTML = `<p class="text-center text-slate-500">No news articles found.</p>`;
+                 return;
+            }
+            
+            // Render the news cards
+            newsToDisplay.forEach(item => {
+                const newsCard = document.createElement('div');
+                newsCard.className = 'news-card bg-white rounded-lg shadow-lg p-6 fade-in';
+                newsCard.style.display = 'none'; // Initially hide for animation
+                newsCard.innerHTML = `
+                    <p class="text-sm text-slate-500 mb-2">${item.date}</p>
+                    <h3 class="font-bold text-xl mb-3 text-slate-900">${item.header}</h3>
+                    <p class="text-slate-600 leading-relaxed">${item.text}</p>
+                `;
+                newsList.appendChild(newsCard);
+                // Stagger the fade-in animation
+                setTimeout(() => { newsCard.style.display = 'flex'; }, 10);
+            });
+             if (loader) loader.style.display = 'none';
+            
+            // Clear and update pagination button
+            paginationContainer.innerHTML = '';
+            if (end < allNews.length) {
+                const loadMoreBtn = document.createElement('button');
+                loadMoreBtn.textContent = translations[currentLang].newsShowOlder;
+                loadMoreBtn.className = 'bg-blue-600 text-white font-semibold py-3 px-6 rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300';
+                loadMoreBtn.onclick = () => {
+                    currentNewsPage++;
+                    displayVisibleNews();
+                };
+                paginationContainer.appendChild(loadMoreBtn);
+            }
+        }
+
         async function loadNews() {
             const newsList = document.getElementById('news-list');
-            const loader = document.getElementById('news-loader');
+            const paginationContainer = document.getElementById('news-pagination');
             const sheetId = '1kmqmsKGem7jT1o6fdcjkAJWilTgJFnYzY7dmj3-6pRM';
-            // Use gviz API to get CSV data from the public sheet
             const sheetUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv`;
 
             try {
@@ -395,40 +464,28 @@
                 if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
                 const csvText = await response.text();
                 
-                // Parse CSV - a simple parser assuming no commas within quoted fields
-                const rows = csvText.split('\n').slice(1); // Skip header row
+                const rows = csvText.trim().split('\n').slice(1);
                 const newsItems = rows.map(row => {
-                    const columns = row.split(',').map(field => field.trim().replace(/^"|"$/g, ''));
-                    if (columns.length >= 3) {
-                         return { date: columns[0], header: columns[1], text: columns[2] };
+                    // This regex handles CSV fields that may be quoted
+                    const columns = row.match(/(".*?"|[^",]+)(?=\s*,|\s*$)/g) || [];
+                    const cleanedColumns = columns.map(field => field.trim().replace(/^"|"$/g, ''));
+                    if (cleanedColumns.length >= 3) {
+                         return { date: cleanedColumns[0], header: cleanedColumns[1], text: cleanedColumns[2] };
                     }
                     return null;
-                }).filter(item => item && item.header); // Filter out empty rows
+                }).filter(item => item && item.header && item.date); // Ensure item is valid
 
-                newsList.innerHTML = ''; // Clear loader
+                // Store all news, reversed to show most recent first
+                allNews = newsItems.reverse();
                 
-                // Get all news items and reverse them to show most recent first
-                const allNews = newsItems.reverse();
-
-                if (allNews.length === 0) {
-                     newsList.innerHTML = `<p class="text-center text-slate-500">No news articles found.</p>`;
-                     return;
-                }
-
-                allNews.forEach(item => {
-                    const newsCard = document.createElement('div');
-                    newsCard.className = 'news-card bg-white rounded-lg shadow-lg p-6 fade-in';
-                    newsCard.innerHTML = `
-                        <p class="text-sm text-slate-500 mb-2">${item.date}</p>
-                        <h3 class="font-bold text-xl mb-3 text-slate-900">${item.header}</h3>
-                        <p class="text-slate-600 leading-relaxed">${item.text}</p>
-                    `;
-                    newsList.appendChild(newsCard);
-                });
+                // Initial display
+                currentNewsPage = 0;
+                displayVisibleNews();
 
             } catch(error) {
                 console.error("Error fetching news:", error);
-                loader.innerHTML = `<p class="text-center text-red-500">Sorry, we couldn't load the news right now.</p>`;
+                newsList.innerHTML = ''; // Clear loader
+                paginationContainer.innerHTML = `<p class="text-center text-red-500">Sorry, we couldn't load the news right now.</p>`;
             }
         }
 
