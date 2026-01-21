@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,62 +12,87 @@
         html {
             scroll-behavior: smooth;
         }
+
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f8fafc; /* slate-50 */
+            background-color: #f8fafc;
+            /* slate-50 */
         }
-        .audio-player-container, .news-card {
+
+        .audio-player-container,
+        .news-card {
             transition: all 0.3s ease-in-out;
             display: flex;
             flex-direction: column;
         }
-        .audio-player-container:hover, .news-card:hover {
+
+        .audio-player-container:hover,
+        .news-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
         }
+
         .fade-in {
             animation: fadeIn 0.5s ease-in-out;
         }
+
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
+
         audio {
             width: 100%;
             border-radius: 0.5rem;
         }
+
         /* Updated Hero Background Style */
         .hero-bg {
             background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1622393168445-ed318ea0554f?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
             background-size: cover;
             background-position: center;
-            background-attachment: fixed; /* Creates a nice parallax effect */
+            background-attachment: fixed;
+            /* Creates a nice parallax effect */
         }
+
         .accordion-content {
             max-height: 0;
             overflow: hidden;
             transition: max-height 0.5s ease-in-out;
         }
+
         .flag-icon {
             cursor: pointer;
             width: 32px;
             height: 24px;
             border-radius: 4px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
             transition: transform 0.2s;
         }
+
         .flag-icon:hover {
             transform: scale(1.1);
         }
+
         .accordion-button svg {
             transition: transform 0.3s ease;
         }
+
         .accordion-button.open svg {
             transform: rotate(180deg);
         }
+
         #rotating-hero-subtitle {
-             min-height: 4rem; 
+            min-height: 4rem;
         }
+
         .episode-thumbnail {
             height: 200px;
             width: 100%;
@@ -74,37 +100,56 @@
         }
     </style>
 </head>
+
 <body class="text-slate-800">
 
     <!-- Header -->
     <header class="bg-white shadow-md sticky top-0 z-50">
         <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <a href="#home" class="text-xl md:text-2xl font-bold text-slate-900" data-lang-key="navTitle">Ukraine in the heart of everyone</a>
+            <a href="#home" class="text-xl md:text-2xl font-bold text-slate-900" data-lang-key="navTitle">Ukraine in the
+                heart of everyone</a>
             <div class="hidden md:flex items-center space-x-6">
-                <a href="#home" class="text-slate-600 hover:text-slate-900 transition-colors duration-300" data-lang-key="navHome">Home</a>
-                <a href="#news" class="text-slate-600 hover:text-slate-900 transition-colors duration-300" data-lang-key="navNews">News</a>
-                <a href="#episodes" class="text-slate-600 hover:text-slate-900 transition-colors duration-300" data-lang-key="navEpisodes">Episodes</a>
-                <a href="#about" class="text-slate-600 hover:text-slate-900 transition-colors duration-300" data-lang-key="navAbout">About</a>
-                <a href="#support-subscribe" class="bg-yellow-400 text-blue-900 font-bold py-2 px-4 rounded-lg hover:bg-yellow-500 transition-colors" data-lang-key="navSupport">Support Us</a>
+                <a href="#home" class="text-slate-600 hover:text-slate-900 transition-colors duration-300"
+                    data-lang-key="navHome">Home</a>
+                <a href="#news" class="text-slate-600 hover:text-slate-900 transition-colors duration-300"
+                    data-lang-key="navNews">News</a>
+                <a href="#episodes" class="text-slate-600 hover:text-slate-900 transition-colors duration-300"
+                    data-lang-key="navEpisodes">Episodes</a>
+                <a href="#about" class="text-slate-600 hover:text-slate-900 transition-colors duration-300"
+                    data-lang-key="navAbout">About</a>
+                <a href="#support-subscribe"
+                    class="bg-yellow-400 text-blue-900 font-bold py-2 px-4 rounded-lg hover:bg-yellow-500 transition-colors"
+                    data-lang-key="navSupport">Support Us</a>
+                <a href="tutoring.html"
+                    class="text-slate-600 hover:text-blue-600 font-semibold border border-blue-100 rounded-lg px-3 py-1 bg-blue-50 hover:bg-blue-100 transition-colors">Tutoring</a>
                 <div class="flex items-center space-x-3 pl-4 border-l">
-                    <img src="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7/flags/4x3/us.svg" alt="English" class="flag-icon" onclick="translatePage('en')">
-                    <img src="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7/flags/4x3/ua.svg" alt="Ukrainian" class="flag-icon" onclick="translatePage('uk')">
+                    <img src="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7/flags/4x3/us.svg" alt="English"
+                        class="flag-icon" onclick="translatePage('en')">
+                    <img src="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7/flags/4x3/ua.svg" alt="Ukrainian"
+                        class="flag-icon" onclick="translatePage('uk')">
                 </div>
             </div>
             <button id="mobile-menu-button" class="md:hidden flex items-center text-slate-600">
-                 <i class="fas fa-bars text-2xl"></i>
+                <i class="fas fa-bars text-2xl"></i>
             </button>
         </nav>
         <!-- Mobile Menu -->
         <div id="mobile-menu" class="hidden md:hidden px-6 pb-4">
             <a href="#home" class="block py-2 text-slate-600 hover:text-slate-900" data-lang-key="navHome">Home</a>
             <a href="#news" class="block py-2 text-slate-600 hover:text-slate-900" data-lang-key="navNews">News</a>
-            <a href="#episodes" class="block py-2 text-slate-600 hover:text-slate-900" data-lang-key="navEpisodes">Episodes</a>
+            <a href="#episodes" class="block py-2 text-slate-600 hover:text-slate-900"
+                data-lang-key="navEpisodes">Episodes</a>
             <a href="#about" class="block py-2 text-slate-600 hover:text-slate-900" data-lang-key="navAbout">About</a>
-            <a href="#support-subscribe" class="block py-2 mt-2 text-center bg-yellow-400 text-blue-900 font-bold rounded-lg hover:bg-yellow-500 transition-colors" data-lang-key="navSupport">Support Us</a>
+            <a href="#support-subscribe"
+                class="block py-2 mt-2 text-center bg-yellow-400 text-blue-900 font-bold rounded-lg hover:bg-yellow-500 transition-colors"
+                data-lang-key="navSupport">Support Us</a>
+            <a href="tutoring.html"
+                class="block py-2 mt-2 text-center border border-blue-200 text-blue-600 font-semibold rounded-lg hover:bg-blue-50 transition-colors">Tutoring</a>
             <div class="flex items-center space-x-4 pt-4 mt-4 border-t justify-center">
-                <img src="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7/flags/4x3/us.svg" alt="English" class="flag-icon" onclick="translatePage('en')">
-                <img src="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7/flags/4x3/ua.svg" alt="Ukrainian" class="flag-icon" onclick="translatePage('uk')">
+                <img src="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7/flags/4x3/us.svg" alt="English"
+                    class="flag-icon" onclick="translatePage('en')">
+                <img src="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7/flags/4x3/ua.svg" alt="Ukrainian"
+                    class="flag-icon" onclick="translatePage('uk')">
             </div>
         </div>
     </header>
@@ -112,17 +157,23 @@
     <!-- Hero Section -->
     <main id="home" class="hero-bg text-white">
         <div class="container mx-auto px-6 py-20 md:py-32 text-center flex flex-col items-center">
-             <h1 class="text-4xl md:text-6xl font-bold mb-4" data-lang-key="heroTitle">Ukrainian Radio Program</h1>
-             <h2 id="rotating-hero-subtitle" class="text-2xl md:text-4xl font-semibold text-yellow-300 mb-8 transition-opacity duration-700 ease-in-out"></h2>
-             <p class="text-lg md:text-xl text-slate-100 max-w-3xl mx-auto mb-10" data-lang-key="heroDescription">
-                Broadcasting from Pittsburgh, PA, we bring you news, culture, and stories connecting the Ukrainian community.
+            <h1 class="text-4xl md:text-6xl font-bold mb-4" data-lang-key="heroTitle">Ukrainian Radio Program</h1>
+            <h2 id="rotating-hero-subtitle"
+                class="text-2xl md:text-4xl font-semibold text-yellow-300 mb-8 transition-opacity duration-700 ease-in-out">
+            </h2>
+            <p class="text-lg md:text-xl text-slate-100 max-w-3xl mx-auto mb-10" data-lang-key="heroDescription">
+                Broadcasting from Pittsburgh, PA, we bring you news, culture, and stories connecting the Ukrainian
+                community.
             </p>
             <div class="flex justify-center items-center flex-wrap gap-4">
-                <a href="https://podcasters.spotify.com/pod/show/ukrainianradioprogram" target="_blank" class="bg-green-500 text-white font-semibold py-3 px-6 rounded-lg shadow-md hover:bg-green-600 transition-all duration-300 flex items-center space-x-2">
+                <a href="https://podcasters.spotify.com/pod/show/ukrainianradioprogram" target="_blank"
+                    class="bg-green-500 text-white font-semibold py-3 px-6 rounded-lg shadow-md hover:bg-green-600 transition-all duration-300 flex items-center space-x-2">
                     <i class="fab fa-spotify"></i>
                     <span data-lang-key="heroSpotify">Listen on Spotify</span>
                 </a>
-                <a href="https://www.paypal.com/donate?business=ostaplernatovych%40gmail.com&item_name=Donation+for+Ukraine+in+the+heart+of+everyone&currency_code=USD" target="_blank" class="bg-gray-100 text-blue-800 font-semibold py-3 px-6 rounded-lg shadow-md hover:bg-white transition-all duration-300 flex items-center space-x-2">
+                <a href="https://www.paypal.com/donate?business=ostaplernatovych%40gmail.com&item_name=Donation+for+Ukraine+in+the+heart+of+everyone&currency_code=USD"
+                    target="_blank"
+                    class="bg-gray-100 text-blue-800 font-semibold py-3 px-6 rounded-lg shadow-md hover:bg-white transition-all duration-300 flex items-center space-x-2">
                     <i class="fab fa-paypal"></i>
                     <span data-lang-key="heroSupport">Support Us</span>
                 </a>
@@ -135,7 +186,7 @@
         <div class="container mx-auto px-6">
             <h2 class="text-3xl font-bold text-center text-slate-900 mb-12" data-lang-key="newsTitle">Latest News</h2>
             <div class="space-y-6 max-w-4xl mx-auto" id="news-list">
-                 <div class="text-center col-span-full" id="news-loader">
+                <div class="text-center col-span-full" id="news-loader">
                     <i class="fas fa-spinner fa-spin text-4xl text-blue-600"></i>
                     <p class="mt-2 text-slate-500" data-lang-key="newsLoading">Loading latest news...</p>
                 </div>
@@ -148,9 +199,10 @@
     <!-- Episodes Section -->
     <section id="episodes" class="bg-slate-50 py-20">
         <div class="container mx-auto px-6">
-            <h2 class="text-3xl font-bold text-center text-slate-900 mb-12" data-lang-key="episodesTitle">Latest Episodes</h2>
+            <h2 class="text-3xl font-bold text-center text-slate-900 mb-12" data-lang-key="episodesTitle">Latest
+                Episodes</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="episode-list">
-                 <div class="text-center col-span-full" id="episodes-loader">
+                <div class="text-center col-span-full" id="episodes-loader">
                     <i class="fas fa-spinner fa-spin text-4xl text-blue-600"></i>
                     <p class="mt-2 text-slate-500" data-lang-key="episodesLoading">Loading latest episodes...</p>
                 </div>
@@ -163,18 +215,26 @@
     <!-- About Section -->
     <section id="about" class="py-20 bg-white">
         <div class="container mx-auto px-6">
-             <h2 class="text-3xl font-bold text-center text-slate-900 mb-12" data-lang-key="aboutTitle">About the Program & Hosts</h2>
-             <div class="max-w-4xl mx-auto">
+            <h2 class="text-3xl font-bold text-center text-slate-900 mb-12" data-lang-key="aboutTitle">About the Program
+                & Hosts</h2>
+            <div class="max-w-4xl mx-auto">
                 <p class="text-slate-600 mb-4 leading-relaxed text-center" data-lang-key="aboutDescription">
-                    The "Ukraine in the heart of everyone" radio program is a vital link for the Ukrainian community in Pittsburgh and beyond. Our mission is to keep the spirit of Ukraine alive, to inform, and to unite our listeners through the power of radio and podcasting. Meet the team below.
+                    The "Ukraine in the heart of everyone" radio program is a vital link for the Ukrainian community in
+                    Pittsburgh and beyond. Our mission is to keep the spirit of Ukraine alive, to inform, and to unite
+                    our listeners through the power of radio and podcasting. Meet the team below.
                 </p>
-               
+
                 <div class="space-y-4 mt-8">
                     <!-- Oksana Lernatovych -->
                     <div class="border rounded-lg bg-white">
-                        <button class="accordion-button w-full flex justify-between items-center p-5 text-left font-semibold text-lg hover:bg-slate-50">
+                        <button
+                            class="accordion-button w-full flex justify-between items-center p-5 text-left font-semibold text-lg hover:bg-slate-50">
                             <span data-lang-key="host1_name">Oksana Lernatovych</span>
-                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7"></path>
+                            </svg>
                         </button>
                         <div class="accordion-content">
                             <div class="p-5 border-t prose max-w-none" data-lang-key="host1_resume"></div>
@@ -182,26 +242,36 @@
                     </div>
                     <!-- Zinoviy Levkovskiy -->
                     <div class="border rounded-lg bg-white">
-                         <button class="accordion-button w-full flex justify-between items-center p-5 text-left font-semibold text-lg hover:bg-slate-50">
+                        <button
+                            class="accordion-button w-full flex justify-between items-center p-5 text-left font-semibold text-lg hover:bg-slate-50">
                             <span data-lang-key="host2_name">Zinoviy Levkovskiy</span>
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7"></path>
+                            </svg>
                         </button>
                         <div class="accordion-content">
                             <div class="p-5 border-t prose max-w-none" data-lang-key="host2_resume"></div>
                         </div>
                     </div>
                     <!-- Volodymyr Lernatovych -->
-                     <div class="border rounded-lg bg-white">
-                        <button class="accordion-button w-full flex justify-between items-center p-5 text-left font-semibold text-lg hover:bg-slate-50">
+                    <div class="border rounded-lg bg-white">
+                        <button
+                            class="accordion-button w-full flex justify-between items-center p-5 text-left font-semibold text-lg hover:bg-slate-50">
                             <span data-lang-key="host3_name">Volodymyr Lernatovych</span>
-                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7"></path>
+                            </svg>
                         </button>
                         <div class="accordion-content">
                             <div class="p-5 border-t prose max-w-none" data-lang-key="host3_resume"></div>
                         </div>
                     </div>
                 </div>
-             </div>
+            </div>
         </div>
     </section>
 
@@ -209,23 +279,36 @@
     <section id="support-subscribe" class="bg-slate-800 text-white py-20">
         <div class="container mx-auto px-6 text-center">
             <h2 class="text-3xl font-bold mb-4" data-lang-key="supportTitle">Support Our Program</h2>
-            <p class="text-slate-300 mb-8 max-w-2xl mx-auto" data-lang-key="supportDescription">Your generous donations help us continue our mission. Every contribution makes a difference. Thank you for your support!</p>
-           
+            <p class="text-slate-300 mb-8 max-w-2xl mx-auto" data-lang-key="supportDescription">Your generous donations
+                help us continue our mission. Every contribution makes a difference. Thank you for your support!</p>
+
             <div class="mb-12">
-                 <a href="https://www.paypal.com/donate?business=ostaplernatovych%40gmail.com&item_name=Donation+for+Ukraine+in+the+heart+of+everyone&currency_code=USD" target="_blank" class="bg-yellow-400 text-blue-900 font-semibold py-4 px-8 rounded-lg shadow-md hover:bg-yellow-300 transition-all duration-300 inline-flex items-center space-x-3 text-lg">
+                <a href="https://www.paypal.com/donate?business=ostaplernatovych%40gmail.com&item_name=Donation+for+Ukraine+in+the+heart+of+everyone&currency_code=USD"
+                    target="_blank"
+                    class="bg-yellow-400 text-blue-900 font-semibold py-4 px-8 rounded-lg shadow-md hover:bg-yellow-300 transition-all duration-300 inline-flex items-center space-x-3 text-lg">
                     <i class="fab fa-paypal"></i>
                     <span data-lang-key="supportDonate">Donate via PayPal</span>
                 </a>
             </div>
-           
-             <hr class="border-slate-600 my-12 max-w-md mx-auto">
-            
-            <h3 class="text-2xl font-bold mb-4" data-lang-key="subscribePlatformsTitle">Find Us On Social Media & Podcast Platforms</h3>
+
+            <hr class="border-slate-600 my-12 max-w-md mx-auto">
+
+            <h3 class="text-2xl font-bold mb-4" data-lang-key="subscribePlatformsTitle">Find Us On Social Media &
+                Podcast Platforms</h3>
             <div class="flex justify-center flex-wrap gap-4 mt-8">
-                 <a href="https://podcasters.spotify.com/pod/show/ukrainianradioprogram" target="_blank" class="bg-slate-700 text-white font-semibold py-3 px-5 rounded-lg hover:bg-green-500 transition-colors flex items-center space-x-2"><i class="fab fa-spotify"></i><span>Spotify</span></a>
-                 <a href="https://podcasts.apple.com/us/podcast/%D1%83%D0%BA%D1%80%D0%B0%D1%97%D0%BD%D0%B0-%D1%83-%D1%81%D0%B5%D1%80%D1%86%D1%96-%D0%BE%D0%B4%D0%BD%D0%B0-ukraine-in-the-heart-of-everyone/id1361296525" target="_blank" class="bg-slate-700 text-white font-semibold py-3 px-5 rounded-lg hover:bg-purple-600 transition-colors flex items-center space-x-2"><i class="fab fa-apple"></i><span>Apple Podcasts</span></a>
-                 <a href="https://www.youtube.com/@oksanalernatovych7212" target="_blank" class="bg-slate-700 text-white font-semibold py-3 px-5 rounded-lg hover:bg-red-600 transition-colors flex items-center space-x-2"><i class="fab fa-youtube"></i><span>YouTube</span></a>
-                 <a href="https://www.facebook.com/groups/177201432334094/" target="_blank" class="bg-slate-700 text-white font-semibold py-3 px-5 rounded-lg hover:bg-blue-600 transition-colors flex items-center space-x-2"><i class="fab fa-facebook"></i><span>Facebook</span></a>
+                <a href="https://podcasters.spotify.com/pod/show/ukrainianradioprogram" target="_blank"
+                    class="bg-slate-700 text-white font-semibold py-3 px-5 rounded-lg hover:bg-green-500 transition-colors flex items-center space-x-2"><i
+                        class="fab fa-spotify"></i><span>Spotify</span></a>
+                <a href="https://podcasts.apple.com/us/podcast/%D1%83%D0%BA%D1%80%D0%B0%D1%97%D0%BD%D0%B0-%D1%83-%D1%81%D0%B5%D1%80%D1%86%D1%96-%D0%BE%D0%B4%D0%BD%D0%B0-ukraine-in-the-heart-of-everyone/id1361296525"
+                    target="_blank"
+                    class="bg-slate-700 text-white font-semibold py-3 px-5 rounded-lg hover:bg-purple-600 transition-colors flex items-center space-x-2"><i
+                        class="fab fa-apple"></i><span>Apple Podcasts</span></a>
+                <a href="https://www.youtube.com/@oksanalernatovych7212" target="_blank"
+                    class="bg-slate-700 text-white font-semibold py-3 px-5 rounded-lg hover:bg-red-600 transition-colors flex items-center space-x-2"><i
+                        class="fab fa-youtube"></i><span>YouTube</span></a>
+                <a href="https://www.facebook.com/groups/177201432334094/" target="_blank"
+                    class="bg-slate-700 text-white font-semibold py-3 px-5 rounded-lg hover:bg-blue-600 transition-colors flex items-center space-x-2"><i
+                        class="fab fa-facebook"></i><span>Facebook</span></a>
             </div>
         </div>
     </section>
@@ -236,13 +319,17 @@
             <div class="mb-6">
                 <h4 class="font-bold text-lg mb-2 text-slate-700" data-lang-key="contactTitle">Contact Us</h4>
                 <div class="text-slate-500 space-y-1">
-                    <p><i class="fas fa-phone mr-2 text-slate-400"></i><a href="tel:412-478-1329" class="hover:text-blue-500">412-478-1329</a></p>
-                    <p><i class="fas fa-envelope mr-2 text-slate-400"></i><a href="mailto:lernatovych@gmail.com" class="hover:text-blue-500">lernatovych@gmail.com</a></p>
+                    <p><i class="fas fa-phone mr-2 text-slate-400"></i><a href="tel:412-478-1329"
+                            class="hover:text-blue-500">412-478-1329</a></p>
+                    <p><i class="fas fa-envelope mr-2 text-slate-400"></i><a href="mailto:lernatovych@gmail.com"
+                            class="hover:text-blue-500">lernatovych@gmail.com</a></p>
                 </div>
             </div>
             <div class="border-t border-slate-200 pt-6 text-slate-500">
                 <p id="footer-text-container"></p>
-                <p class="text-sm mt-2" data-lang-key="creatorCredit">Website created by <a href="https://ost4p.com/website" target="_blank" class="text-blue-500 hover:underline">Ostap Lernatovych</a></p>
+                <p class="text-sm mt-2" data-lang-key="creatorCredit">Website created by <a
+                        href="https://ost4p.com/website" target="_blank" class="text-blue-500 hover:underline">Ostap
+                        Lernatovych</a></p>
             </div>
         </div>
     </footer>
@@ -331,7 +418,7 @@
                 }
             });
             document.documentElement.lang = lang;
-            
+
             // Dynamically set footer text
             const year = new Date().getFullYear();
             const footerEl = document.getElementById('footer-text-container');
@@ -340,23 +427,23 @@
             }
 
             // After translating, update pagination button text if they exist
-             const loadMoreNewsBtn = document.querySelector('#news-pagination button');
-             if (loadMoreNewsBtn) {
-                 loadMoreNewsBtn.textContent = translations[lang].newsShowOlder;
-             }
-             const prevEpisodesBtn = document.querySelector('#episodes-pagination .prev-button');
-              if (prevEpisodesBtn) {
-                 prevEpisodesBtn.textContent = translations[lang].episodesShowPrevious;
-             }
-             const nextEpisodesBtn = document.querySelector('#episodes-pagination .next-button');
-             if (nextEpisodesBtn) {
-                 nextEpisodesBtn.textContent = translations[lang].episodesShowNext;
-             }
+            const loadMoreNewsBtn = document.querySelector('#news-pagination button');
+            if (loadMoreNewsBtn) {
+                loadMoreNewsBtn.textContent = translations[lang].newsShowOlder;
+            }
+            const prevEpisodesBtn = document.querySelector('#episodes-pagination .prev-button');
+            if (prevEpisodesBtn) {
+                prevEpisodesBtn.textContent = translations[lang].episodesShowPrevious;
+            }
+            const nextEpisodesBtn = document.querySelector('#episodes-pagination .next-button');
+            if (nextEpisodesBtn) {
+                nextEpisodesBtn.textContent = translations[lang].episodesShowNext;
+            }
         }
 
         // --- Accordion Toggle ---
         function setupAccordions() {
-             document.querySelectorAll('.accordion-button').forEach(button => {
+            document.querySelectorAll('.accordion-button').forEach(button => {
                 button.addEventListener('click', () => {
                     const content = button.nextElementSibling;
                     button.classList.toggle('open');
@@ -368,7 +455,7 @@
                 });
             });
         }
-       
+
         // --- Mobile Menu Toggle ---
         const mobileMenuButton = document.getElementById('mobile-menu-button');
         const mobileMenu = document.getElementById('mobile-menu');
@@ -400,7 +487,7 @@
                 const description = getCleanDescription(item.description);
                 const pubDate = new Date(item.pubDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
                 const thumbnail = item.thumbnail || `https://placehold.co/600x400/1e293b/ffffff?text=${encodeURIComponent(item.title)}`;
-                
+
                 episodeCard.innerHTML = `
                     <img src="${thumbnail}" alt="${item.title}" class="episode-thumbnail" onerror="this.onerror=null;this.src='https://placehold.co/600x400/1e293b/ffffff?text=Image+Not+Found';">
                     <div class="p-6 flex-grow">
@@ -464,17 +551,17 @@
             const rssFeedUrl = 'https://anchor.fm/s/2ea2228/podcast/rss';
             // Using a different public CORS proxy.
             const proxyUrl = `https://cors.eu.org/${rssFeedUrl}`;
-            
+
             try {
                 const response = await fetch(proxyUrl);
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
                 const xmlText = await response.text();
-                
+
                 const parser = new DOMParser();
                 const xmlDoc = parser.parseFromString(xmlText, "application/xml");
-                
+
                 const errorNode = xmlDoc.querySelector("parsererror");
                 if (errorNode) {
                     console.error("Parser Error:", errorNode.textContent);
@@ -497,17 +584,17 @@
                         thumbnail: itunesImage?.getAttribute("href") || null
                     };
                 });
-                
+
                 allEpisodes = parsedEpisodes.sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
                 currentEpisodePage = 0;
                 displayVisibleEpisodes();
 
             } catch (error) {
                 console.error("Error fetching or parsing RSS feed:", error);
-                if(loader) loader.innerHTML = `<p class="text-center col-span-full text-red-500">Sorry, we couldn't load the episodes right now. This is likely due to network (CORS) restrictions. Please try again later.</p>`;
+                if (loader) loader.innerHTML = `<p class="text-center col-span-full text-red-500">Sorry, we couldn't load the episodes right now. This is likely due to network (CORS) restrictions. Please try again later.</p>`;
             }
         }
-       
+
         // --- Dynamic News Loading with Pagination ---
         let allNews = [];
         let currentNewsPage = 0;
@@ -527,11 +614,11 @@
             if (loader) newsList.appendChild(loader);
 
             if (newsToDisplay.length === 0 && allNews.length > 0) {
-                 if (loader) loader.style.display = 'none';
-                 newsList.innerHTML = `<p class="text-center text-slate-500">No news articles found.</p>`;
-                 return;
+                if (loader) loader.style.display = 'none';
+                newsList.innerHTML = `<p class="text-center text-slate-500">No news articles found.</p>`;
+                return;
             }
-            
+
             newsToDisplay.forEach(item => {
                 const newsCard = document.createElement('div');
                 newsCard.className = 'news-card bg-white rounded-lg shadow-lg p-6 fade-in';
@@ -544,8 +631,8 @@
                 newsList.appendChild(newsCard);
                 setTimeout(() => { newsCard.style.display = 'flex'; }, 10);
             });
-             if (loader) loader.style.display = 'none';
-            
+            if (loader) loader.style.display = 'none';
+
             paginationContainer.innerHTML = '';
             if (end < allNews.length) {
                 const loadMoreBtn = document.createElement('button');
@@ -570,13 +657,13 @@
                 const response = await fetch(sheetUrl);
                 if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
                 const csvText = await response.text();
-                
+
                 const rows = csvText.trim().split('\n').slice(1);
                 const newsItems = rows.map(row => {
                     const columns = row.match(/(".*?"|[^",]+)(?=\s*,|\s*$)/g) || [];
                     const cleanedColumns = columns.map(field => field.trim().replace(/^"|"$/g, ''));
                     if (cleanedColumns.length >= 3) {
-                         return { date: cleanedColumns[0], header: cleanedColumns[1], text: cleanedColumns[2] };
+                        return { date: cleanedColumns[0], header: cleanedColumns[1], text: cleanedColumns[2] };
                     }
                     return null;
                 }).filter(item => item && item.header && item.date);
@@ -585,9 +672,9 @@
                 currentNewsPage = 0;
                 displayVisibleNews();
 
-            } catch(error) {
+            } catch (error) {
                 console.error("Error fetching news:", error);
-                if(loader) loader.parentElement.innerHTML = `<p class="text-center text-red-500">Sorry, we couldn't load the news right now.</p>`;
+                if (loader) loader.parentElement.innerHTML = `<p class="text-center text-red-500">Sorry, we couldn't load the news right now.</p>`;
             }
         }
 
@@ -610,7 +697,7 @@
 
         // --- Initial Load ---
         document.addEventListener('DOMContentLoaded', () => {
-            translatePage('en'); 
+            translatePage('en');
             loadEpisodes();
             loadNews();
             setupAccordions();
@@ -619,4 +706,5 @@
 
     </script>
 </body>
+
 </html>
