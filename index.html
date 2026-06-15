@@ -549,16 +549,42 @@
         async function loadEpisodes() {
             const loader = document.getElementById('episodes-loader');
             const rssFeedUrl = 'https://anchor.fm/s/2ea2228/podcast/rss';
-            // Using a different public CORS proxy.
-            const proxyUrl = `https://cors.eu.org/${rssFeedUrl}`;
+            const localFeedUrl = './episodes.xml';
+            const fallbackProxyUrl = `https://corsproxy.io/?${encodeURIComponent(rssFeedUrl)}`;
+
+            let xmlText = null;
+
+            // Try local cached feed first (no CORS)
+            try {
+                console.log("Attempting to load local episodes.xml...");
+                const response = await fetch(localFeedUrl);
+                if (response.ok) {
+                    xmlText = await response.text();
+                    console.log("Successfully loaded episodes from local cache.");
+                } else {
+                    console.warn(`Local episodes.xml not found or failed to load: status ${response.status}`);
+                }
+            } catch (localError) {
+                console.warn("Failed to load local episodes.xml, will try fallback proxy:", localError);
+            }
+
+            // If local load failed, try fallback proxy
+            if (!xmlText) {
+                try {
+                    console.log("Attempting to fetch live episodes via fallback CORS proxy...");
+                    const response = await fetch(fallbackProxyUrl);
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    xmlText = await response.text();
+                    console.log("Successfully loaded episodes via CORS proxy.");
+                } catch (proxyError) {
+                    console.error("Error fetching live episodes via CORS proxy:", proxyError);
+                    throw new Error("Both local cache and CORS proxy failed.");
+                }
+            }
 
             try {
-                const response = await fetch(proxyUrl);
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                const xmlText = await response.text();
-
                 const parser = new DOMParser();
                 const xmlDoc = parser.parseFromString(xmlText, "application/xml");
 
@@ -590,7 +616,7 @@
                 displayVisibleEpisodes();
 
             } catch (error) {
-                console.error("Error fetching or parsing RSS feed:", error);
+                console.error("Error processing RSS feed content:", error);
                 if (loader) loader.innerHTML = `<p class="text-center col-span-full text-red-500">Sorry, we couldn't load the episodes right now. This is likely due to network (CORS) restrictions. Please try again later.</p>`;
             }
         }

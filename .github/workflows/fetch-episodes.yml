@@ -1,0 +1,37 @@
+name: Fetch Latest Episodes
+
+on:
+  schedule:
+    # Run every 6 hours
+    - cron: '0 */6 * * *'
+  workflow_dispatch: # Allow manual triggering
+
+permissions:
+  contents: write
+
+jobs:
+  fetch-and-update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Fetch RSS feed
+        run: |
+          curl -f -sL "https://anchor.fm/s/2ea2228/podcast/rss" -o episodes.xml
+
+      - name: Verify RSS feed content
+        run: |
+          if grep -q "<rss" episodes.xml; then
+            echo "Valid RSS feed fetched successfully."
+          else
+            echo "Error: The fetched file does not look like a valid RSS feed."
+            exit 1
+          fi
+
+      - name: Commit and push changes
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git add episodes.xml
+          git commit -m "chore: update episodes.xml RSS feed [skip ci]" && git push || echo "No changes to commit"
