@@ -37,4 +37,9 @@ jobs:
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
           git add episodes.xml
-          git commit -m "chore: update episodes.xml RSS feed [skip ci]" && git push || echo "No changes to commit"
+          if git commit -m "chore: update episodes.xml RSS feed [skip ci]"; then
+            git pull --rebase origin main
+            git push
+          else
+            echo "No changes to commit"
+          fi
