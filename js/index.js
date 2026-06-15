@@ -215,7 +215,13 @@ async function loadEpisodes() {
     const loader = document.getElementById('episodes-loader');
     const rssFeedUrl = 'https://anchor.fm/s/2ea2228/podcast/rss';
     const localFeedUrl = './episodes.xml';
-    const fallbackProxyUrl = `https://corsproxy.io/?${encodeURIComponent(rssFeedUrl)}`;
+    
+    // Fallback Proxies
+    const proxies = [
+        `https://corsproxy.io/?${encodeURIComponent(rssFeedUrl)}`,
+        `https://api.allorigins.win/raw?url=${encodeURIComponent(rssFeedUrl)}`,
+        `https://thingproxy.freeboard.io/fetch/${rssFeedUrl}`
+    ];
 
     let xmlText = null;
 
@@ -230,23 +236,32 @@ async function loadEpisodes() {
             console.warn(`Local episodes.xml not found or failed to load: status ${response.status}`);
         }
     } catch (localError) {
-        console.warn("Failed to load local episodes.xml, will try fallback proxy:", localError);
+        console.warn("Failed to load local episodes.xml, will try fallback proxies:", localError);
     }
 
-    // If local load failed, try fallback proxy
+    // If local load failed, try fallback proxies sequentially
     if (!xmlText) {
-        try {
-            console.log("Attempting to fetch live episodes via fallback CORS proxy...");
-            const response = await fetch(fallbackProxyUrl);
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
+        for (const proxyUrl of proxies) {
+            try {
+                console.log(`Attempting to fetch live episodes via proxy: ${proxyUrl}...`);
+                const response = await fetch(proxyUrl);
+                if (response.ok) {
+                    xmlText = await response.text();
+                    console.log("Successfully loaded episodes via proxy.");
+                    break; // Success, stop trying other proxies
+                } else {
+                    console.warn(`Proxy failed: status ${response.status}`);
+                }
+            } catch (proxyError) {
+                console.warn(`Proxy failed to fetch: ${proxyUrl}`, proxyError);
             }
-            xmlText = await response.text();
-            console.log("Successfully loaded episodes via CORS proxy.");
-        } catch (proxyError) {
-            console.error("Error fetching live episodes via CORS proxy:", proxyError);
-            throw new Error("Both local cache and CORS proxy failed.");
         }
+    }
+
+    if (!xmlText) {
+        console.error("All load attempts (local cache and fallback proxies) failed.");
+        if (loader) loader.innerHTML = `<p class="text-center col-span-full text-red-500">Sorry, we couldn't load the episodes right now. This is likely due to network (CORS) restrictions. Please try again later.</p>`;
+        return;
     }
 
     try {
