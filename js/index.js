@@ -160,7 +160,7 @@ function displayVisibleEpisodes() {
         const shareText = translations[currentLang].shareEpisode || (currentLang === 'uk' ? 'Поділитися' : 'Share');
 
         episodeCard.innerHTML = `
-            <img src="${thumbnail}" alt="${item.title}" class="episode-thumbnail" onerror="this.onerror=null;this.src='https://placehold.co/600x400/1e293b/ffffff?text=Image+Not+Found';">
+            <img src="${thumbnail}" alt="${item.title}" class="episode-thumbnail" onload="this.classList.add('loaded')" onerror="this.onerror=null;this.classList.add('loaded');this.src='https://placehold.co/600x400/1e293b/ffffff?text=Image+Not+Found';">
             <div class="p-6 flex-grow">
                 <p class="text-sm text-slate-500 mb-2">${pubDate}</p>
                 <h3 class="font-bold text-xl mb-3 text-slate-900">${item.title}</h3>

@@ -1,0 +1,95 @@
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #f8fafc;
+    /* slate-50 */
+}
+
+.audio-player-container,
+.news-card {
+    transition: all 0.3s ease-in-out;
+    display: flex;
+    flex-direction: column;
+}
+
+.audio-player-container:hover,
+.news-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+}
+
+.fade-in {
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+audio {
+    width: 100%;
+    border-radius: 0.5rem;
+}
+
+/* Updated Hero Background Style */
+.hero-bg {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1622393168445-ed318ea0554f?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    /* Creates a nice parallax effect */
+}
+
+.accordion-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease-in-out;
+}
+
+.flag-icon {
+    cursor: pointer;
+    width: 32px;
+    height: 24px;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+}
+
+.flag-icon:hover {
+    transform: scale(1.1);
+}
+
+.accordion-button svg {
+    transition: transform 0.3s ease;
+}
+
+.accordion-button.open svg {
+    transform: rotate(180deg);
+}
+
+#rotating-hero-subtitle {
+    min-height: 4rem;
+}
+
+.episode-thumbnail {
+    height: 200px;
+    width: 100%;
+    object-fit: cover;
+    background-color: #cbd5e1; /* slate-300 placeholder */
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.episode-thumbnail.loaded {
+    opacity: 1;
+}
