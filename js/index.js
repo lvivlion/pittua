@@ -34,7 +34,10 @@ const translations = {
         contactTitle: "Contact Us",
         footerCopyright: "Ukrainian Radio Program 'Ukraine in the heart of everyone'.",
         creatorCredit: `Website created by <a href="https://ost4p.com/" target="_blank" class="text-blue-500 hover:underline">Ostap Lernatovych</a>`,
-        shareEpisode: "Share"
+        shareEpisode: "Share",
+        shareCopyLink: "Copy Link",
+        shareFacebook: "Facebook",
+        shareCopiedToast: "Link copied to clipboard!"
     },
     uk: {
         navTitle: "Україна в серці одна",
@@ -70,7 +73,10 @@ const translations = {
         contactTitle: "Контакти",
         footerCopyright: "Українська радіо програма 'Україна у серці одна'.",
         creatorCredit: `Веб-сайт створено <a href="https://ost4p.com/website" target="_blank" class="text-blue-500 hover:underline">Остапом Лернатовичем</a>`,
-        shareEpisode: "Поділитися"
+        shareEpisode: "Поділитися",
+        shareCopyLink: "Копіювати",
+        shareFacebook: "Facebook",
+        shareCopiedToast: "Посилання скопійовано!"
     }
 };
 
@@ -158,6 +164,8 @@ function displayVisibleEpisodes() {
         const pubDate = new Date(item.pubDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
         const thumbnail = item.thumbnail || `https://placehold.co/600x400/1e293b/ffffff?text=${encodeURIComponent(item.title)}`;
         const shareText = translations[currentLang].shareEpisode || (currentLang === 'uk' ? 'Поділитися' : 'Share');
+        const copyLinkText = translations[currentLang].shareCopyLink || (currentLang === 'uk' ? 'Копіювати' : 'Copy Link');
+        const facebookText = translations[currentLang].shareFacebook || 'Facebook';
 
         episodeCard.innerHTML = `
             <img src="${thumbnail}" alt="${item.title}" class="episode-thumbnail" onload="this.classList.add('loaded')" onerror="this.onerror=null;this.classList.add('loaded');this.src='https://placehold.co/600x400/1e293b/ffffff?text=Image+Not+Found';">
@@ -171,12 +179,29 @@ function displayVisibleEpisodes() {
                     <source src="${item.enclosure.url}" type="${item.enclosure.type}">
                     Your browser does not support the audio element.
                 </audio>
-                <button onclick="shareEpisode('${slug}', this)" class="share-button text-blue-600 hover:text-blue-800 text-sm font-semibold flex items-center gap-1 transition-all">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 10.742l4.57 2.286M14.57 14.57a3.5 3.5 0 11-4.714-4.714L14.43 7.57a3.5 3.5 0 114.714 4.714l-4.57 2.286z" />
-                    </svg>
-                    <span>${shareText}</span>
-                </button>
+                <div class="relative inline-block text-left">
+                    <button onclick="toggleShareMenu('${slug}', this, event)" class="share-button inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-bold bg-blue-50 text-blue-600 hover:bg-blue-100 hover:text-blue-700 transition-all duration-300">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 10.742l4.57 2.286M14.57 14.57a3.5 3.5 0 11-4.714-4.714L14.43 7.57a3.5 3.5 0 114.714 4.714l-4.57 2.286z" />
+                        </svg>
+                        <span>${shareText}</span>
+                    </button>
+                    <!-- Share Menu Popover -->
+                    <div id="share-menu-${slug}" class="hidden absolute left-0 bottom-full mb-2 w-48 rounded-lg bg-white shadow-xl border border-slate-200 py-1.5 z-10 transition-all duration-200 origin-bottom-left transform scale-95 opacity-0">
+                        <button onclick="copyEpisodeLink('${slug}', event)" class="flex items-center gap-2.5 w-full text-left px-4 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50 transition-colors">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
+                            </svg>
+                            <span>${copyLinkText}</span>
+                        </button>
+                        <button onclick="shareToFacebook('${slug}', event)" class="flex items-center gap-2.5 w-full text-left px-4 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50 transition-colors">
+                            <svg class="h-4 w-4 text-[#1877F2] fill-current" viewBox="0 0 24 24">
+                                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                            </svg>
+                            <span>${facebookText}</span>
+                        </button>
+                    </div>
+                </div>
             </div>`;
         episodeList.appendChild(episodeCard);
     });
@@ -233,32 +258,112 @@ function slugify(text) {
         .replace(/-+$/, '');            // Trim - from end of text
 }
 
-// --- Share Episode Link ---
-function shareEpisode(slug, buttonElement) {
+// --- Share Functions ---
+function toggleShareMenu(slug, buttonElement, event) {
+    event.stopPropagation();
+    const menu = document.getElementById(`share-menu-${slug}`);
+    if (!menu) return;
+
+    const isHidden = menu.classList.contains('hidden');
+    
+    // Close all other share menus first
+    document.querySelectorAll('[id^="share-menu-"]').forEach(m => {
+        if (m !== menu) {
+            m.classList.add('hidden', 'scale-95', 'opacity-0');
+            m.classList.remove('scale-100', 'opacity-100');
+        }
+    });
+
+    if (isHidden) {
+        menu.classList.remove('hidden');
+        // Small delay to trigger CSS transition
+        setTimeout(() => {
+            menu.classList.remove('scale-95', 'opacity-0');
+            menu.classList.add('scale-100', 'opacity-100');
+        }, 10);
+    } else {
+        menu.classList.remove('scale-100', 'opacity-100');
+        menu.classList.add('scale-95', 'opacity-0');
+        setTimeout(() => {
+            menu.classList.add('hidden');
+        }, 200);
+    }
+}
+
+function copyEpisodeLink(slug, event) {
+    event.stopPropagation();
     const shareUrl = `${window.location.origin}${window.location.pathname}#${slug}`;
+    const currentLang = document.documentElement.lang || 'en';
     
     navigator.clipboard.writeText(shareUrl).then(() => {
-        const originalText = buttonElement.innerHTML;
-        const currentLang = document.documentElement.lang || 'en';
-        const copiedText = currentLang === 'uk' ? 'Посилання скопійовано!' : 'Link copied!';
-        
-        buttonElement.innerHTML = `
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline mr-1 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-            </svg>
-            <span>${copiedText}</span>
-        `;
-        buttonElement.classList.add('text-green-600');
-        buttonElement.disabled = true;
-        
-        setTimeout(() => {
-            buttonElement.innerHTML = originalText;
-            buttonElement.classList.remove('text-green-600');
-            buttonElement.disabled = false;
-        }, 2000);
+        const toastMsg = translations[currentLang].shareCopiedToast || 'Link copied to clipboard!';
+        showToast(toastMsg);
     }).catch(err => {
         console.error("Failed to copy link: ", err);
     });
+
+    // Close the menu
+    const menu = document.getElementById(`share-menu-${slug}`);
+    if (menu) {
+        menu.classList.remove('scale-100', 'opacity-100');
+        menu.classList.add('scale-95', 'opacity-0');
+        setTimeout(() => {
+            menu.classList.add('hidden');
+        }, 200);
+    }
+}
+
+function shareToFacebook(slug, event) {
+    event.stopPropagation();
+    const shareUrl = `${window.location.origin}${window.location.pathname}#${slug}`;
+    const fbShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`;
+    window.open(fbShareUrl, '_blank', 'width=600,height=400,noopener,noreferrer');
+
+    // Close the menu
+    const menu = document.getElementById(`share-menu-${slug}`);
+    if (menu) {
+        menu.classList.remove('scale-100', 'opacity-100');
+        menu.classList.add('scale-95', 'opacity-0');
+        setTimeout(() => {
+            menu.classList.add('hidden');
+        }, 200);
+    }
+}
+
+function showToast(message) {
+    const existing = document.getElementById('share-toast');
+    if (existing) {
+        existing.remove();
+    }
+
+    const toast = document.createElement('div');
+    toast.id = 'share-toast';
+    toast.className = 'fixed bottom-6 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 px-5 py-3 rounded-full bg-slate-900/90 backdrop-blur-md text-white shadow-2xl border border-slate-800/50 transition-all duration-300 transform translate-y-10 opacity-0';
+    
+    toast.innerHTML = 
+        '<div class="flex items-center justify-center w-5 h-5 rounded-full bg-green-500 text-white flex-shrink-0">' +
+            '<svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">' +
+                '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />' +
+            '</svg>' +
+        '</div>' +
+        '<span class="text-xs font-semibold tracking-wide whitespace-nowrap">' + message + '</span>';
+    
+    document.body.appendChild(toast);
+    
+    // Animate in
+    setTimeout(() => {
+        toast.classList.remove('translate-y-10', 'opacity-0');
+        toast.classList.add('translate-y-0', 'opacity-100');
+    }, 10);
+    
+    // Animate out
+    setTimeout(() => {
+        toast.classList.remove('translate-y-0', 'opacity-100');
+        toast.classList.add('translate-y-10', 'opacity-0');
+        setTimeout(() => {
+            toast.remove();
+        }, 300);
+    }, 3000);
 }
 
 // --- Handle Hash Navigation ---
@@ -497,4 +602,17 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Bind hashchange listener to navigate to shared episodes dynamically
     window.addEventListener('hashchange', handleHashNavigation);
+
+    // Close share menus when clicking outside
+    document.addEventListener('click', () => {
+        document.querySelectorAll('[id^="share-menu-"]').forEach(menu => {
+            if (!menu.classList.contains('hidden')) {
+                menu.classList.remove('scale-100', 'opacity-100');
+                menu.classList.add('scale-95', 'opacity-0');
+                setTimeout(() => {
+                    menu.classList.add('hidden');
+                }, 200);
+            }
+        });
+    });
 });
