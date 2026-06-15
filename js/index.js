@@ -263,7 +263,13 @@ function shareEpisode(slug, buttonElement) {
 
 // --- Handle Hash Navigation ---
 function handleHashNavigation() {
-    const hash = window.location.hash.substring(1);
+    let hash = '';
+    try {
+        hash = decodeURIComponent(window.location.hash.substring(1));
+    } catch (e) {
+        console.error("Failed to decode hash URI component:", e);
+        hash = window.location.hash.substring(1);
+    }
     if (!hash) return;
 
     // Find the episode index with this slug
