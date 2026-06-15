@@ -33,7 +33,8 @@ const translations = {
         subscribePlatformsTitle: "Find Us On Social Media & Podcast Platforms",
         contactTitle: "Contact Us",
         footerCopyright: "Ukrainian Radio Program 'Ukraine in the heart of everyone'.",
-        creatorCredit: `Website created by <a href="https://ost4p.com/" target="_blank" class="text-blue-500 hover:underline">Ostap Lernatovych</a>`
+        creatorCredit: `Website created by <a href="https://ost4p.com/" target="_blank" class="text-blue-500 hover:underline">Ostap Lernatovych</a>`,
+        shareEpisode: "Share"
     },
     uk: {
         navTitle: "Україна в серці одна",
@@ -68,7 +69,8 @@ const translations = {
         subscribePlatformsTitle: "Знайдіть нас у соцмережах та на подкаст-платформах",
         contactTitle: "Контакти",
         footerCopyright: "Українська радіо програма 'Україна у серці одна'.",
-        creatorCredit: `Веб-сайт створено <a href="https://ost4p.com/website" target="_blank" class="text-blue-500 hover:underline">Остапом Лернатовичем</a>`
+        creatorCredit: `Веб-сайт створено <a href="https://ost4p.com/website" target="_blank" class="text-blue-500 hover:underline">Остапом Лернатовичем</a>`,
+        shareEpisode: "Поділитися"
     }
 };
 
@@ -148,10 +150,14 @@ function displayVisibleEpisodes() {
 
     episodesToDisplay.forEach(item => {
         const episodeCard = document.createElement('div');
-        episodeCard.className = 'audio-player-container bg-white rounded-lg shadow-lg overflow-hidden fade-in';
+        episodeCard.className = 'audio-player-container bg-white rounded-lg shadow-lg overflow-hidden fade-in transition-all duration-300';
+        const slug = slugify(item.title);
+        episodeCard.id = slug;
+        
         const description = getCleanDescription(item.description);
         const pubDate = new Date(item.pubDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
         const thumbnail = item.thumbnail || `https://placehold.co/600x400/1e293b/ffffff?text=${encodeURIComponent(item.title)}`;
+        const shareText = translations[currentLang].shareEpisode || (currentLang === 'uk' ? 'Поділитися' : 'Share');
 
         episodeCard.innerHTML = `
             <img src="${thumbnail}" alt="${item.title}" class="episode-thumbnail" onerror="this.onerror=null;this.src='https://placehold.co/600x400/1e293b/ffffff?text=Image+Not+Found';">
@@ -161,10 +167,16 @@ function displayVisibleEpisodes() {
                 <p class="text-slate-600 leading-relaxed">${description}</p>
             </div>
             <div class="bg-slate-100 p-4 mt-auto border-t border-slate-200">
-                <audio controls preload="none" class="w-full">
+                <audio controls preload="none" class="w-full mb-3">
                     <source src="${item.enclosure.url}" type="${item.enclosure.type}">
                     Your browser does not support the audio element.
                 </audio>
+                <button onclick="shareEpisode('${slug}', this)" class="share-button text-blue-600 hover:text-blue-800 text-sm font-semibold flex items-center gap-1 transition-all">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 10.742l4.57 2.286M14.57 14.57a3.5 3.5 0 11-4.714-4.714L14.43 7.57a3.5 3.5 0 114.714 4.714l-4.57 2.286z" />
+                    </svg>
+                    <span>${shareText}</span>
+                </button>
             </div>`;
         episodeList.appendChild(episodeCard);
     });
@@ -209,6 +221,73 @@ function getCleanDescription(htmlString) {
         return text.substring(0, 147) + '...';
     }
     return text;
+}
+
+// --- Helper to slugify titles for linking ---
+function slugify(text) {
+    return text.toString().toLowerCase().trim()
+        .replace(/\s+/g, '-')           // Replace spaces with -
+        .replace(/[^\w\u0400-\u04FF-]+/g, '') // Remove all non-word chars (preserving Ukrainian cyrillic)
+        .replace(/--+/g, '-')         // Replace multiple - with single -
+        .replace(/^-+/, '')             // Trim - from start of text
+        .replace(/-+$/, '');            // Trim - from end of text
+}
+
+// --- Share Episode Link ---
+function shareEpisode(slug, buttonElement) {
+    const shareUrl = `${window.location.origin}${window.location.pathname}#${slug}`;
+    
+    navigator.clipboard.writeText(shareUrl).then(() => {
+        const originalText = buttonElement.innerHTML;
+        const currentLang = document.documentElement.lang || 'en';
+        const copiedText = currentLang === 'uk' ? 'Посилання скопійовано!' : 'Link copied!';
+        
+        buttonElement.innerHTML = `
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline mr-1 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+            </svg>
+            <span>${copiedText}</span>
+        `;
+        buttonElement.classList.add('text-green-600');
+        buttonElement.disabled = true;
+        
+        setTimeout(() => {
+            buttonElement.innerHTML = originalText;
+            buttonElement.classList.remove('text-green-600');
+            buttonElement.disabled = false;
+        }, 2000);
+    }).catch(err => {
+        console.error("Failed to copy link: ", err);
+    });
+}
+
+// --- Handle Hash Navigation ---
+function handleHashNavigation() {
+    const hash = window.location.hash.substring(1);
+    if (!hash) return;
+
+    // Find the episode index with this slug
+    const index = allEpisodes.findIndex(ep => slugify(ep.title) === hash);
+    if (index !== -1) {
+        // Calculate the page index where the episode belongs
+        const targetPage = Math.floor(index / EPISODES_PER_PAGE);
+        if (currentEpisodePage !== targetPage) {
+            currentEpisodePage = targetPage;
+            displayVisibleEpisodes();
+        }
+
+        setTimeout(() => {
+            const element = document.getElementById(hash);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                // Add highlight ring
+                element.classList.add('ring-4', 'ring-blue-500', 'ring-opacity-50');
+                setTimeout(() => {
+                    element.classList.remove('ring-4', 'ring-blue-500', 'ring-opacity-50');
+                }, 3000);
+            }
+        }, 300);
+    }
 }
 
 async function loadEpisodes() {
@@ -294,6 +373,7 @@ async function loadEpisodes() {
         allEpisodes = parsedEpisodes.sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
         currentEpisodePage = 0;
         displayVisibleEpisodes();
+        handleHashNavigation();
 
     } catch (error) {
         console.error("Error processing RSS feed content:", error);
@@ -408,4 +488,7 @@ document.addEventListener('DOMContentLoaded', () => {
     loadNews();
     setupAccordions();
     startSubtitleRotation();
+    
+    // Bind hashchange listener to navigate to shared episodes dynamically
+    window.addEventListener('hashchange', handleHashNavigation);
 });
